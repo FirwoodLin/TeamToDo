@@ -1,0 +1,18 @@
+Mysql:
+  host :
+  port:
+  user:
+  password:
+  charset:
+  database: "databaseName"
+Redis:
+  addr:
+  password:
+  DB:
+RSA:
+  PublicKey: ""
+  PrivateKey: ""
+COS:
+  url: "https://<bucket>.cos.<location>.myqcloud.com"
+  SecretID: ""
+  SecretKey: ""
