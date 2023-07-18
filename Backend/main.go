@@ -16,4 +16,8 @@ func main() {
 	//fmt.Println(err)
 	//global.Logger.Debug("server run success on ")
 
+	// 创建路由引擎
+
+	// 开始运行
+
 }

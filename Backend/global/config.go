@@ -47,6 +47,12 @@ type JWT struct {
 	SecretKey  string `mapstructure:"SecretKey"`
 	ExpireTime int    `mapstructure:"ExpireTime"`
 }
+type Email struct {
+	Username string `mapstructure:"Username"`
+	Secret   string `mapstructure:"Secret"`
+	Host     string `mapstructure:"Host"`
+	Post     int    `mapstructure:"Port"`
+}
 type Config struct {
 	MySQL  MySQLConfig   `mapstructure:"Mysql"`
 	Redis  RedisConfig   `mapstructure:"Redis"`
@@ -55,6 +61,7 @@ type Config struct {
 	Zap    Zap           `mapstructure:"Zap"`
 	Avatar DefaultAvatar `mapstructure:"DefaultAvatar"`
 	JWT    JWT           `mapstructure:"JWT"`
+	Mail   Email         `mapstructure:"mail"`
 }
 
 //var Server Config
