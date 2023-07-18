@@ -4,6 +4,7 @@ import (
 	"TeamToDo/global"
 	"TeamToDo/model"
 	"TeamToDo/model/request"
+
 	"github.com/jinzhu/copier"
 )
 
@@ -22,13 +23,6 @@ func GroupCreate(groupReq *request.GroupCreateRequest) (*model.Group, error) {
 		return nil, err
 	}
 	return &group, err
-}
-
-// CheckUserInGroup 检查用户是否在群组中！！！（重要）（附带检查用户在群组中的身份）
-func CheckUserInGroup(userID uint, groupID uint) model.Role {
-	var userGroup model.UserGroup
-	_ = global.Sql.Where("user_id = ? AND group_id = ?", userID, groupID).First(&userGroup)
-	return userGroup.Role
 }
 
 // FindUserJoinedGroups 查看个人的群组；查找用户加入的所有群组
