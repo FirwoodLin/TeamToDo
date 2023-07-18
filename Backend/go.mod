@@ -7,6 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator/v10 v10.14.0
 	github.com/golang-jwt/jwt/v5 v5.0.0
+	github.com/google/uuid v1.3.0
 	github.com/jinzhu/copier v0.3.5
 	github.com/spf13/viper v1.16.0
 	go.uber.org/zap v1.21.0

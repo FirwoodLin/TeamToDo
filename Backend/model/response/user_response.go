@@ -1,16 +1,16 @@
 package response
 
-type UserSignInResponse struct {
-	UserID     uint
+type UserResponse struct {
+	// 比较通用的结构体，用户信息三要素
+	// 场景：登陆/注册/更新/查询 用户信息后返回
+	UserID     uint   `json:"userID"`
 	UserName   string `json:"userName" `
 	UserAvatar string `json:"userAvatar"`
 }
 type UserQueryResponse struct {
-	Name      string `json:"name"`
-	Nickname  string `json:"nickname"`
-	Email     string `json:"email"`
-	Tel       string `json:"tel"`
-	IsAdmin   bool   `json:"is_admin"`
-	UserID    uint   `json:"id"`
-	ViewCount int    `json:"view_count"`
+	// 查询自己的个人信息用
+	UserID     uint   `json:"userID"`
+	UserName   string `json:"userName"`
+	Email      string `json:"email"`
+	UserAvatar string `json:"userAvatar"`
 }
