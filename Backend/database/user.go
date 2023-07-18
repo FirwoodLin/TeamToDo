@@ -65,7 +65,7 @@ func createUser(userReq *request.UserRegisterRequest) (uint, error) {
 }
 
 // CheckUser 用户登录时 检查邮箱是否存在 邮箱密码是否一致 **是否是管理员**
-func CheckUser(userSReq *request.UserSignInRequest) (userResponse *response.UserSignInResponse, err error) {
+func CheckUser(userSReq *request.UserSignInRequest) (userResponse *response.UserResponse, err error) {
 	// 检查邮箱是否存在
 	var user model.User
 	result := global.Sql.Where("email = ?", userSReq.Email).First(&user)
@@ -78,7 +78,7 @@ func CheckUser(userSReq *request.UserSignInRequest) (userResponse *response.User
 		global.Logger.Infof("登陆密码不正确%v\n", userSReq.Email)
 		return nil, errors.New("密码不正确")
 	}
-	userResponse = &response.UserSignInResponse{UserID: user.UserID}
+	userResponse = &response.UserResponse{UserID: user.UserID}
 	global.Logger.Infof("登陆成功,id：%v\n", userResponse.UserID)
 
 	return userResponse, nil
@@ -88,8 +88,8 @@ func CheckUser(userSReq *request.UserSignInRequest) (userResponse *response.User
 func UpdateUser(userReq *request.UserUpdateRequest) {
 	user := &model.User{}
 	user.UserID = userReq.UserID
-	if len(userReq.Password) != 0 {
-		_ = utils.EncryptUserPassword(&userReq.Password)
+	if len(userReq.NewPassword) != 0 {
+		_ = utils.EncryptUserPassword(&userReq.NewPassword)
 	}
 	global.Sql.Model(user).Updates(userReq)
 }
