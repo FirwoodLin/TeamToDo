@@ -35,13 +35,14 @@ func MiddlewareJWTAuthorize() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		auth := c.GetHeader("Authorization")
+
 		if len(auth) <= len("Bearer ") {
 			c.JSON(http.StatusUnauthorized, response.UnauthorizedError)
 			c.Abort()
 			return
 		}
 		tokenString := auth[len("Bearer "):]
-		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenString, &jwt.MapClaims{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(jwtKey), nil
 		})
 		if err != nil {

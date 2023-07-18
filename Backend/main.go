@@ -3,6 +3,7 @@ package main
 import (
 	"TeamToDo/global"
 	"TeamToDo/initialize"
+	"TeamToDo/routes"
 )
 
 func main() {
@@ -17,7 +18,7 @@ func main() {
 	//global.Logger.Debug("server run success on ")
 
 	// 创建路由引擎
-
+	r := routes.SetupRoutes()
 	// 开始运行
-
+	_ = r.Run(":8080")
 }

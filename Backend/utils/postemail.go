@@ -10,9 +10,9 @@ import (
 func PostEmail(email, uuid string) error {
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", "。。。Team")
+	m.SetHeader("From", global.Server.Mail.Username)
 	m.SetHeader("To", email)
-	m.SetHeader("验证你的TeamTodDo账号")
+	m.SetHeader("VerifyTeamTodDo")
 
 	link := "http://127.0.0.1:8080/users/verify?uuid=" + uuid
 
