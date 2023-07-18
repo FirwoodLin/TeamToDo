@@ -29,14 +29,6 @@
       animation-timing-function: ease-out;
     }
   }
-  .child {
-    position: absolute;
-    top: 0;
-    left: 1477px;
-    background-color: var(--color2);
-    width: 188px;
-    height: 1024px;
-  }
   .frame-child,
   .item {
     position: absolute;
@@ -59,19 +51,18 @@
     width: 100px;
     height: 30px;
   }
-  .frame-item,
-  .wrapper {
+
+  /*user-avatar */
+.user-avatar {
+  position: absolute;
+  top: 0;
+  }
+  .frame-item {
     position: absolute;
     top: 0;
   }
-  .wrapper {
-    left: 2px;
-    background-color: var(--color-gainsboro-200);
-    width: 279px;
-    height: 76px;
-    font-size: 24px;
-  }
-  .frame-item {
+
+  .user-avatar {
     height: 100%;
     width: 21.59%;
     right: 78.41%;
@@ -80,33 +71,79 @@
     border-radius: 50%;
     background-color: var(--color-silver);
   }
-  .div2,
-  .div3 {
+  .wrapper {
+    position: relative; 
+    top: 0;
+    left: 0;
+    background-color: var(--color-gainsboro-200);
+    width: 279px;
+    height: 76px;
+    font-size: 24px;
+  }
+  .frame-item {
+    position: absolute;
+width: 49px;
+height: 49px;
+left: 0%;
+right: 78.41%;
+top: 0%;
+bottom: 0%;
+
+background: rgb(189, 203, 213);
+border-radius: 50%;
+  }
+
+  .user-name, 
+  .current-user {
     position: absolute;
     font-weight: 100;
-  }
-  .div2 {
-    height: 53.33%;
-    width: 35.24%;
-    top: 28.57%;
-    left: 28.19%;
-    display: inline-block;
-  }
-  .div3 {
+  }                                                                                                                                                      
+  
+  .current-user {
     top: 26.53%;
     left: 91.19%;
     color: var(--color-darkgray);
   }
-  .ellipse-parent {
+  .user-name {
+    height: 53.33%;
+    width: 45%;
+    top: 28.57%;
+    left: 35%;
+    display: inline-block;
+  }
+
+  .div2 {
+position: absolute;
+width: 80px;
+height: 26.13px;
+left: 28%;
+top: 28.57%;
+bottom: 18.1%;
+color: rgb(77, 77, 77);
+font-family: Inter;
+font-size: 19px;
+letter-spacing: 0%;
+text-align: left;
+  }
+
+  .user-instance {
+    position: relative;
+    margin: 0;
+    width: 279px;
+    height: 99px;
+  }
+  .user-info {
     position: absolute;
-    top: 23px;
-    left: 18px;
     width: 227px;
     height: 49px;
+    left: 18px;
+    right: 34px;
+    top: 23px;
+    bottom: 27px;
+    
   }
   .component-child,
-  .component-item,
-  .frame-parent {
+  .component-item {
     position: absolute;
     height: 87.88%;
     width: 385.3%;
@@ -116,21 +153,18 @@
     left: 100%;
     background-color: var(--color-gainsboro-200);
   }
-  .component-item,
-  .frame-parent {
+  .component-item {
     height: 79.8%;
     width: 385.66%;
     bottom: 0;
     left: 99.64%;
   }
   .frame-parent {
-    height: 9.67%;
-    width: 99.29%;
-    top: 7.42%;
-    right: 0;
-    bottom: 82.91%;
-    left: 0.71%;
-    background-color: var(--color-lightgray);
+    position: relative;
+    height: 99px;
+    width: 279px;
+    margin: auto;
+    background-color: var(--color-gainsboro-200);  
   }
   .instance-child,
   .instance-item {
@@ -150,6 +184,8 @@
     bottom: 0;
     left: 99.64%;
   }
+
+  
   .frame-group {
     position: absolute;
     height: 100%;
@@ -161,29 +197,25 @@
     background-color: var(--color-lightgray);
   }
   .component-inner,
-  .rectangle-div {
+  .delete-user {
     position: absolute;
-    height: 6.06%;
-    width: 7.53%;
+    height: 6px;
+    width: 21px;
     top: 47.47%;
-    right: 11.83%;
+    right: 0;
     bottom: 46.46%;
-    left: 80.65%;
     border-radius: var(--br-33xl);
-    background-color: var(--color-white);
-  }
-  .rectangle-div {
-    top: 44.44%;
-    bottom: 49.49%;
     background-color: var(--color-lightslategray);
   }
+
   .instance-parent {
-    position: absolute;
-    top: 175px;
-    left: 2px;
+    position: relative;
     width: 279px;
-    height: 99px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
   }
+
   .div7 {
     position: absolute;
     top: 26.53%;
@@ -194,22 +226,22 @@
   }
   .frame-container,
   .group-div {
-    position: absolute;
-    top: 274px;
-    left: 2px;
-    background-color: var(--color-lightgray);
+    position: relative;
     width: 279px;
     height: 99px;
-  }
-  .group-div {
-    top: 373px;
     left: 0;
-    width: 280px;
+    margin: 0;
+    padding: 0;
   }
-  .union-icon {
-    position: relative;
-    width: 0;
-    height: 0;
+
+  .ellipse-parent {
+    position: absolute;
+    width: 227px;
+    height: 49px;
+    left: 18px;
+    right: 35px;
+    top: 23px;
+    bottom: 27px;
   }
   .inner,
   .rectangle-parent {
@@ -220,12 +252,12 @@
     height: 1024px;
   }
   .inner {
-    height: 0.59%;
-    width: 1.46%;
-    top: 30.86%;
-    right: 77.01%;
-    bottom: 68.55%;
-    left: 21.53%;
+    width: 21px;
+    height: 6px;
+    left: 80.65%;
+    right: 11.83%;
+    top: 44.44%;
+    bottom: 49.49%;
     border-radius: var(--br-33xl);
     background-color: var(--color-lightslategray);
   }
@@ -236,6 +268,24 @@
     background-color: var(--color-gainsboro-100);
     width: 1076px;
     height: 76px;
+  }
+
+  .vector-1 {
+    position: absolute;
+    width: 25px;
+    height: 0px;
+    left: 22%;
+    top: 45%;
+    border: 2px solid white;
+    transform: rotate(90.00deg);
+  }
+  .vector-2 {
+    position: absolute;
+    width: 25px;
+    height: 0px;
+    left: 22%;
+    top: 45%;
+    border: 2px solid white;
   }
   .vector-icon {
     position: absolute;
@@ -581,4 +631,5 @@
     color: var(--color-black);
     font-family: var(--text);
   }
+  
   
