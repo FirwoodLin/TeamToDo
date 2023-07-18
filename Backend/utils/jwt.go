@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"TeamToDo/global"
 	"TeamToDo/model/response"
 	//"MallSystem/model/response"
 	"net/http"
@@ -12,7 +13,9 @@ import (
 
 func GenerateJWTToken(id string) string {
 	// 这里jwtKey不会为空
-	jwtKey := viper.GetString("JWT.SecretKey")
+	//jwtKey := viper.GetString("JWT.SecretKey")
+	jwtKey := global.Server.JWT.SecretKey
+	//expireTime := global.Server.JWT.ExpireTime // TODO：待完善：添加过期时间
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"userid": id,
 	})

@@ -16,9 +16,8 @@ type User struct {
 }
 type EmailVerification struct {
 	TimeModel
-	EmailActivationID uint `gorm:"primarykey"`
-	UserID            uint `gorm:"user"`
-	//Email             string `gorm:"type:varchar(100);unique" validate:"required,email,max=100"`
+	Email string `gorm:"column:email;type:varchar(100)" validate:"required,email,max=100"`
+	Uuid  string `gorm:"unique;column:uuid;not null;type:varchar(255)"`
 }
 
 func (u *User) Validate() error {

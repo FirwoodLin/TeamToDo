@@ -39,13 +39,22 @@ type Zap struct {
 	StacktraceKey string `mapstructure:"stacktrace-key" json:"stacktraceKey" yaml:"stacktrace-key"` // 栈名
 	LogInConsole  bool   `mapstructure:"log-in-console" json:"logInConsole" yaml:"log-in-console"`  // 输出控制台
 }
-
+type DefaultAvatar struct {
+	UserUrl  string `mapstructure:"userUrl"`
+	GroupUrl string `mapstructure:"groupUrl"`
+}
+type JWT struct {
+	SecretKey  string `mapstructure:"SecretKey"`
+	ExpireTime int    `mapstructure:"ExpireTime"`
+}
 type Config struct {
-	MySQL MySQLConfig `mapstructure:"Mysql"`
-	Redis RedisConfig `mapstructure:"Redis"`
-	COS   COSConfig   `mapstructure:"COS"`
-	RSA   RSAConfig   `mapstructure:"RSA"`
-	Zap   Zap         `mapstructure:"Zap"`
+	MySQL  MySQLConfig   `mapstructure:"Mysql"`
+	Redis  RedisConfig   `mapstructure:"Redis"`
+	COS    COSConfig     `mapstructure:"COS"`
+	RSA    RSAConfig     `mapstructure:"RSA"`
+	Zap    Zap           `mapstructure:"Zap"`
+	Avatar DefaultAvatar `mapstructure:"DefaultAvatar"`
+	JWT    JWT           `mapstructure:"JWT"`
 }
 
 //var Server Config
