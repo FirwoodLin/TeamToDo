@@ -139,7 +139,8 @@ func UserUpdate(userReq *request.UserUpdateRequest) error {
 	// 更新用户名
 	user.UserName = userReq.UserName
 	// 存入数据库
-	global.Sql.Model(user).Updates(userReq)
+	//global.Sql.Model(user).Updates(userReq)
+	global.Sql.Save(&user)
 	return nil
 }
 

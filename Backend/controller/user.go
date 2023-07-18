@@ -2,6 +2,7 @@ package controller
 
 import (
 	"TeamToDo/database"
+	"TeamToDo/global"
 	"TeamToDo/model/request"
 	"TeamToDo/model/response"
 	"TeamToDo/utils"
@@ -29,6 +30,7 @@ func UserRegistrationHandler(c *gin.Context) {
 	}
 	if err := utils.PostEmail(u.Email, database.NewVerifyLinkUuid(u.Email)); err != nil {
 		c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("无法发送邮件"))
+		global.Logger.Infof("无法发送邮件: %v", err)
 		return
 	}
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(*resp))
