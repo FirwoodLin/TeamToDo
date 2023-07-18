@@ -1,18 +1,21 @@
-Mysql:
-  host :
-  port:
-  user:
-  password:
-  charset:
-  database: "databaseName"
-Redis:
-  addr:
-  password:
-  DB:
-RSA:
-  PublicKey: ""
-  PrivateKey: ""
-COS:
-  url: "https://<bucket>.cos.<location>.myqcloud.com"
-  SecretID: ""
-  SecretKey: ""
+"mysql":
+  "DBType": "mysql"
+  "Username": "bgm_dev"
+  "Password": "B@m0311_"
+  "Host": "localhost"
+  "Port": "33067"
+  "DBName": "bgm"
+  "Charset": "utf8"
+  "test" : "test11111111111"
+"JWT":
+  "SecretKey": "114514"
+  "ExpireTime": 36
+"mail":
+  "Username": "tan90_1697@163.com"
+  "Secret": "LORAPFFIZBFXMNSZ"
+  "Host" : "smtp.163.com"
+  "Port" : 25
+#"OIDC":
+#  "Secret":"idtoken秘钥"
+
+

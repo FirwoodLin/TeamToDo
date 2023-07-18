@@ -8,10 +8,11 @@ import (
 	"TeamToDo/utils"
 	"errors"
 	"fmt"
-	"github.com/go-playground/validator/v10"
-	"github.com/jinzhu/copier"
 	"log"
 	"strconv"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/jinzhu/copier"
 )
 
 // UserRegister 用户注册 - 调用/查重/函数和/创建/用户函数
