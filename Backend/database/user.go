@@ -22,11 +22,11 @@ func UserRegister(userReq *request.UserRegisterRequest) (userResponse *response.
 		global.Logger.Info("注册用户时,数据不合规\n")
 		return nil, err
 	}
-	// 查询该用户是否注册过(名称/邮箱)
-	if isExistUser(userReq) {
-		return nil, errors.New("该用户名/邮箱已注册")
-	}
-	// 注册用户
+	// 查询该用户是否注册过(名称/邮箱) -> 没必要，因为在数据库中设置了 unique 约束
+	//if isExistUser(userReq) {
+	//	return nil, errors.New("该用户名/邮箱已注册")
+	//}
+	// 注册用户 -> 在此处凭借数据库的 unique 约束来实现查重
 	userResponse, err = createUser(userReq)
 	if err != nil {
 		return nil, err
@@ -35,14 +35,14 @@ func UserRegister(userReq *request.UserRegisterRequest) (userResponse *response.
 }
 
 // isExistUser 检查邮箱是否注册过 - 内部函数
-func isExistUser(userReq *request.UserRegisterRequest) bool {
-	var user model.User
-	//result := global.Sql.Where("name = ? OR email = ?", userReq.Name, userReq.Email).First(&user)
-	result := global.Sql.Where("email = ?", userReq.Email).First(&user)
-	// 如果没有找到记录，返回 false
-	// 静态检查建议：直接返回布尔值，不进行 if 判断
-	return result.RowsAffected != 0
-}
+//func isExistUser(userReq *request.UserRegisterRequest) bool {
+//	var user model.User
+//	//result := global.Sql.Where("name = ? OR email = ?", userReq.Name, userReq.Email).First(&user)
+//	result := global.Sql.Where("email = ?", userReq.Email).First(&user)
+//	// 如果没有找到记录，返回 false
+//	// 静态检查建议：直接返回布尔值，不进行 if 判断
+//	return result.RowsAffected != 0
+//}
 
 // createUser 创建用户 - 内部函数
 func createUser(userReq *request.UserRegisterRequest) (*response.UserResponse, error) {

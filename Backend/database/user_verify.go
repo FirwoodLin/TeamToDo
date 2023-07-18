@@ -8,6 +8,7 @@ import (
 )
 
 // CheckIsVerified 检查用户是否已经验证过邮箱
+// deprecated: 在登陆时完成
 func CheckIsVerified() {
 
 }
