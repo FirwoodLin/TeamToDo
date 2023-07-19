@@ -9,6 +9,10 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"
+    />
   </head>
   <body>
     <div class="div">
@@ -137,5 +141,65 @@
         <img class="frame-child8" alt="" src="./public/group-32.svg" />
       </div>
     </div>
+    <section class="task-info-modal">
+      <button class="task-complete">√完成任务</button>
+      <button class="save-task">保存</button>
+      <header class="task-info-create">
+        <div>
+          <label for="task-name">名称:</label>
+          <input
+            name="taskName"
+            type="text"
+            class="task-name"
+            id="task-name"
+            spellcheck="true"
+            focus
+            required
+          />
+        </div>
+        <div>
+          <label for="task-start-time">开始时间:</label>
+          <input
+            name="taskStartTime"
+            type="datetime-local"
+            class="task-start-time"
+            id="task-start-time"
+            required
+          />
+        </div>
+        <div>
+          <label for="task-end-time">截至时间:</label>
+          <input
+            name="taskEndTime"
+            type="datetime-local"
+            class="task-end-time"
+            id="task-end-time"
+            required
+          />
+        </div>
+      </header>
+      <div class="text-area">
+        <label for="task-description">任务描述:</label>
+        <textarea
+          name="taskDescription"
+          id="task-description"
+          cols="40"
+          rows="50"
+          maxlength="200"
+          minlength="0"
+          placeholder="请输入任务描述,最多200字"
+          spellcheck="true"
+        ></textarea>
+      </div>
+    </section>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"
+      defer
+    ></script>
+    <script src="./JS/team_01.js" defer></script>
   </body>
 </html>
