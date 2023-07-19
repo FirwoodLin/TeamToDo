@@ -1,3 +1,5 @@
+import {token} from "./global.js";
+
 (function() {
     const taskModal = document.querySelector('.task-info-modal');
     const createTaskBtn = document.querySelector('.frame');
