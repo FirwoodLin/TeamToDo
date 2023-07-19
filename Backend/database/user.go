@@ -35,16 +35,6 @@ func UserRegister(userReq *request.UserRegisterRequest) (userResponse *response.
 	return userResponse, nil
 }
 
-// isExistUser 检查邮箱是否注册过 - 内部函数
-//func isExistUser(userReq *request.UserRegisterRequest) bool {
-//	var user model.User
-//	//result := global.Sql.Where("name = ? OR email = ?", userReq.Name, userReq.Email).First(&user)
-//	result := global.Sql.Where("email = ?", userReq.Email).First(&user)
-//	// 如果没有找到记录，返回 false
-//	// 静态检查建议：直接返回布尔值，不进行 if 判断
-//	return result.RowsAffected != 0
-//}
-
 // createUser 创建用户 - 内部函数
 func createUser(userReq *request.UserRegisterRequest) (*response.UserResponse, error) {
 	// 改用 copier 进行结构体转换
@@ -85,8 +75,8 @@ func createUser(userReq *request.UserRegisterRequest) (*response.UserResponse, e
 }
 
 // UserSignIn 用户登陆； 1.检查邮箱是否存在 2.邮箱密码是否一致
-// 只有登陆的时候可以产生 JWT token
 func UserSignIn(userReq *request.UserSignInRequest) (userResponse *response.UserResponse, err error) {
+	// 只有登陆的时候可以产生 JWT token
 	// 检查邮箱是否存在
 	var user model.User
 	result := global.Sql.Where("email = ?", userReq.Email).First(&user)
@@ -107,6 +97,7 @@ func UserSignIn(userReq *request.UserSignInRequest) (userResponse *response.User
 		global.Logger.Infof("用户未激活,id：%v\n", userResponse.UserID)
 		return nil, errors.New("用户未激活")
 	}
+	_ = copier.Copy(&userResponse, &user)
 	// 返回用户信息
 	return userResponse, nil
 }

@@ -1,7 +1,6 @@
 package model
 
 import (
-	"TeamToDo/model/response"
 	"time"
 )
 
@@ -25,6 +24,6 @@ type Task struct {
 	RemindWhen     time.Time `json:"remindWhen"`     // 特定时间提醒
 	RemindWhenDone bool      `json:"remindWhenDone"` // 成员完成时提醒
 	// 所有者相关
-	OwnerID uint                  `json:"-"` // 任务所有者的ID
-	Owner   response.UserResponse `json:"owner"`
+	OwnerID uint `json:"-" gorm:"foreignKey:userID"` // 任务所有者的ID
+	Owner   User `json:"owner"`
 }
