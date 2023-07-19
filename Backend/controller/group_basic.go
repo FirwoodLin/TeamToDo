@@ -126,7 +126,7 @@ func GetGroupsHandler(c *gin.Context) {
 // GET: "/api/groups/:groupID/members"
 // 查看群组所有成员
 func GetAllUsersInGroupHandler(c *gin.Context) {
-	groupID, err := strconv.ParseUint(c.PostForm("groupID"), 10, 32)
+	groupID, err := strconv.ParseUint(c.Param("groupID"), 10, 32)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 		return

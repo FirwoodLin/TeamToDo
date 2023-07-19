@@ -13,7 +13,8 @@ import (
 // CheckUserInGroup 检查用户是否在群组中！！！（重要）（附带检查用户在群组中的身份）
 func CheckUserInGroup(userID uint, groupID uint) model.Role {
 	var userGroup model.UserGroup
-	_ = global.Sql.Where("user_id = ? AND group_id = ?", userID, groupID).First(&userGroup)
+	_ = global.Sql.Where("userID = ? AND groupID = ?", userID, groupID).First(&userGroup)
+	global.Logger.Debug("CheckUserInGroup:role ", userGroup.Role)
 	return userGroup.Role
 }
 

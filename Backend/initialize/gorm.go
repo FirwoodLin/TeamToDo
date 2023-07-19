@@ -22,12 +22,21 @@ func ConnectMysql() *gorm.DB {
 // initTables 自动迁移表
 func initTables(db *gorm.DB) {
 	tables := []interface{}{
-		&model.User{},
-		&model.EmailVerification{},
+		&model.User{}, &model.EmailVerification{}, // user.go
+		&model.Group{}, &model.UserGroup{}, // group.go
+		&model.GroupApply{}, &model.GroupJoinCode{}, // group_apply.go
+		&model.Task{}, &model.UserTask{}, // task.go
 	}
-	err := db.AutoMigrate(tables...)
-	if err != nil {
-		global.Logger.Errorf("register table failed: %v\n", err)
-
+	//err := db.AutoMigrate(tables...)
+	for _, table := range tables {
+		err := db.AutoMigrate(table)
+		if err != nil {
+			global.Logger.Errorf("auto migrate table failed: %v\n", err)
+			panic(err)
+		}
 	}
+	//if err != nil {
+	//	global.Logger.Errorf("register table failed: %v\n", err)
+	//
+	//}
 }
