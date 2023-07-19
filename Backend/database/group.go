@@ -4,6 +4,7 @@ import (
 	"TeamToDo/global"
 	"TeamToDo/model"
 	"TeamToDo/model/request"
+
 	"github.com/jinzhu/copier"
 )
 
@@ -23,6 +24,7 @@ func GroupCreate(groupReq *request.GroupCreateRequest) (*model.Group, error) {
 	}
 	return &group, err
 }
+
 
 // CheckUserInGroup 检查用户是否在群组中（附带检查用户在群组中的身份）
 func CheckUserInGroup(userID uint, groupID uint) model.Role {
