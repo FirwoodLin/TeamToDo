@@ -5,8 +5,7 @@ import (
 	"TeamToDo/model"
 )
 
-// TaskCreate 新建任务(需要检查用户身份后调用）
-// 返回值直接从传入的 task 读取
+// TaskCreate 新建任务(需要检查用户身份后调用）返回值直接从传入的 task 读取
 func TaskCreate(task *model.Task) (err error) {
 	err = global.Sql.Create(task).Error
 	if err != nil {
@@ -56,4 +55,15 @@ func GetTaskIdsFromUserTasks(userTasks []model.UserTask) (taskIDs []uint) {
 	}
 	global.Logger.Debug("userTasks: ", userTasks, "\ntaskIDs: ", taskIDs)
 	return taskIDs
+}
+
+// QueryTasksByTaskID 根据任务 ID 查询任务
+func QueryTaskByTaskID(taskID uint) (task model.Task, err error) {
+	err = global.Sql.Where("taskID = ?", taskID).First(&task).Error
+	if err != nil {
+		global.Logger.Infof("查询任务失败,taskID: %v,err:%v", taskID, err.Error())
+		return task, err
+	}
+	global.Logger.Debug("taskID", taskID, "\ntask: ", task)
+	return task, err
 }
