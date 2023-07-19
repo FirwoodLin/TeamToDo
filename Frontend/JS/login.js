@@ -1,6 +1,8 @@
 var button = document.querySelector("button");
 button.addEventListener('click',login);
 
+import { token, userID, userName, userAvatar } from "./global.js";
+
 function login() {
     var email = document.getElementById("email").value;
     var password = document.getElementById("pwd").value;
@@ -14,10 +16,14 @@ function login() {
         if (xhr.status === 200) {
                 var response = JSON.parse(xhr.responseText);
                 if(response.success) {
-                    var token = response.data.token;
+                    token = response.data.token;
                     localStorage.setItem('token',token);
 
                     var user = response.data.user;
+                    userID = user.userID.toString();
+                    userName = user.userName;
+                    userAvatar = user.userAvatar;
+
                     localStorage.setItem('userID',user.userID.toString());
                     localStorage.setItem('userName',user.userName);
                     localStorage.setItem('userAvatar',user.userAvatar);
