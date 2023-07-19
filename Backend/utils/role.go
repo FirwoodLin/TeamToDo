@@ -20,7 +20,7 @@ func CheckUserInGroup(userID uint, groupID uint) model.Role {
 func MiddlewareRole(roleRequested model.Role) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userID := c.GetUint("userID")
-		groupID, err := strconv.ParseUint(c.PostForm("groupID"), 10, 32)
+		groupID, err := strconv.ParseUint(c.Param("groupID"), 10, 32)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 			c.Abort()
@@ -33,5 +33,6 @@ func MiddlewareRole(roleRequested model.Role) gin.HandlerFunc {
 			return
 		}
 		c.Set("groupID", uint(groupID))
+		c.Set("role", role)
 	}
 }

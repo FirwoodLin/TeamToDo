@@ -2,6 +2,7 @@ package routes
 
 import (
 	"TeamToDo/controller"
+	"TeamToDo/model"
 	"TeamToDo/utils"
 
 	"github.com/gin-gonic/gin"
@@ -33,14 +34,16 @@ func registerBasicGroupRoutes(r *gin.RouterGroup) {
 
 }
 
-// func registerAdvancedGroupRoutes(r *gin.RouterGroup) {
-// 	advanced := r.Group("/:groupID", utils.MiddlewareRole(model.RoleAdmin))
+func registerAdvancedGroupRoutes(r *gin.RouterGroup) {
+	advanced := r.Group("/:groupID", utils.MiddlewareRole(model.RoleAdmin))
 
-// 	// // 获取所有的加群申请
-// 	// advanced.GET("/applys", GetApplysHandler)
+	// 获取所有的加群申请
+	advanced.GET("/applys", controller.GetApplysHandler)
 
-// 	// // 更新申请状态
-// 	// advanced.PUT("/applys/:applyID", UpdateApplyStatusHandler)
+	// 更新申请状态
+	advanced.PUT("/applys/:applyID", controller.UpdateApplyStatusHandler)
 
-// 	//
-// }
+	// // 更新成员状态
+	// 更新成员状态这个太笼统了，设置管理员需要群主权限，移出成员只需要管理员权限
+	// advanced.PUT
+}
