@@ -1,29 +1,41 @@
 package utils
 
 import (
+	"TeamToDo/global"
 	"TeamToDo/model/response"
-	//"MallSystem/model/response"
+	"log"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v5"
-	"github.com/spf13/viper"
 )
 
 func GenerateJWTToken(id string) string {
 	// 这里jwtKey不会为空
-	jwtKey := viper.GetString("JWT.SecretKey")
+	//jwtKey := viper.GetString("JWT.SecretKey")
+	jwtKey := global.Server.JWT.SecretKey
+	//expireTime := global.Server.JWT.ExpireTime // TODO：待完善：添加过期时间
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"userid": id,
+		"userID": id,
+		"exp":    time.Now().Add(time.Second * time.Duration(global.Server.JWT.ExpireTime)).Unix(),
 	})
 	// 这里不会有error被返回
-	tokenString, _ := token.SignedString([]byte(jwtKey))
+	tokenString, err := token.SignedString([]byte(jwtKey))
+	if err != nil {
+		log.Println("[error]:", err)
+		return ""
+	}
 	return tokenString
 }
 
 func MiddlewareJWTAuthorize() gin.HandlerFunc {
+	jwtKey := global.Server.JWT.SecretKey
+
 	return func(c *gin.Context) {
 		auth := c.GetHeader("Authorization")
+
 		if len(auth) <= len("Bearer ") {
 			c.JSON(http.StatusUnauthorized, response.UnauthorizedError)
 			c.Abort()
@@ -31,7 +43,7 @@ func MiddlewareJWTAuthorize() gin.HandlerFunc {
 		}
 		tokenString := auth[len("Bearer "):]
 		token, err := jwt.ParseWithClaims(tokenString, &jwt.MapClaims{}, func(token *jwt.Token) (interface{}, error) {
-			return []byte(viper.GetString("JWT.SecretKey")), nil
+			return []byte(jwtKey), nil
 		})
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, response.UnauthorizedError)
@@ -44,6 +56,13 @@ func MiddlewareJWTAuthorize() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		c.Set("userid", (*claims)["userid"].(string))
+		id, err := strconv.ParseUint((*claims)["userID"].(string), 10, 32)
+		if err != nil {
+			log.Println("[error]:", err)
+			c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("校验令牌失败"))
+			c.Abort()
+			return
+		}
+		c.Set("userID", uint(id))
 	}
 }

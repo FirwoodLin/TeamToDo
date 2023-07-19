@@ -1,0 +1,131 @@
+* {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    color: rgba(255, 255, 255, 0.74);
+
+}
+
+.wrap {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: url("../public/background.jpg") center no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.box {
+    width: 530px;
+    height: 650px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #FFF;
+    box-shadow: 0px 4px 198px 0px rgba(182, 182, 182, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.welcome-box {
+    margin-top: 80px;
+
+    width: 430px;
+    height: 60px;
+    flex-shrink: 0;
+}
+
+.welcome-box p {
+    color: #000;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.welcome-box span {
+    color: #000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 44px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+}
+
+.email-box,
+.pwd-box {
+    display: flex;
+    align-items: center;
+    width: 430px;
+    height: 60px;
+    border-radius: 16px;
+    border: 1px solid #000;
+    background: #FFF;
+    
+}
+
+.email-box {
+    margin-top: 60px;
+}
+
+.pwd-box {
+    margin-top: 25px;
+}
+
+.email-box input,
+.pwd-box input {
+    width: 430px;
+    height: 60px;
+    padding-left: 30px;
+    border: none;
+    background: transparent;
+    color: #585F76;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+    border-radius: 16px;
+}
+
+.email-box input::placeholder,
+.pwd-box input::placeholder {
+    color: #585F76;
+}
+
+.register-btn {
+
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 430px;
+    height: 60px;
+    border-radius: 16px;
+    background: #2866DF;
+}
+
+.register-btn button {
+    width: 100%;
+    height: 100%;
+    color: #FFF;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 100;
+    line-height: normal;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+
+.register-btn:active {
+    background: #1652a8;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}

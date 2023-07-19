@@ -11,4 +11,6 @@ var (
 	Logger *zap.SugaredLogger
 	Server Config
 	Sql    *gorm.DB
+	//DefaultAvatar string
+	//Avatar DefaultAvatar
 )
