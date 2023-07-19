@@ -64,6 +64,15 @@
             <div class="div2">添加成员</div>
           </div>
         </div>
+        <form action="#" class="select-team">
+          <label for="teams">团队选择</label>
+          <select name="groupName" id="teams" size="2">
+            <option>不想写HTML</option>
+            <option>不想写CSS</option>
+            <option>更不想写JavaScript</option>
+          </select>
+          <input type="submit" value="确认" />
+        </form>
       </div>
 
       <!--todolist view-->
@@ -81,27 +90,31 @@
 
       <ul class="task-list">
         <li class="task" id="0">
+          <div class="delete-task"></div>
           <p class="item1">任务efwf</p>
           <p class="item2">开始时间fe</p>
           <p class="item3">结束时间fe</p>
           <p class="item4">状态few</p>
         </li>
         <li class="task" id="1">
+          <div class="delete-task"></div>
           <p class="item1">任few务</p>
           <p class="item2">开始few时间</p>
           <p class="item3">结束时efw间</p>
           <p class="item4">状态</p>
         </li>
         <li class="task" id="2">
+          <div class="delete-task"></div>
           <p class="item1">任few务</p>
           <p class="item2">开few始时间</p>
           <p class="item3">结束efw时间</p>
           <p class="item4">状态few</p>
         </li>
       </ul>
-      <button class="frame">
+      <button class="frame" id="open-task-modal">
         <div class="div27">新建</div>
       </button>
+
       <div class="frame-parent3">
         <div class="rectangle-parent1">
           <div class="frame-child5"></div>
@@ -141,7 +154,7 @@
         <img class="frame-child8" alt="" src="./public/group-32.svg" />
       </div>
     </div>
-    <section class="task-info-modal">
+    <section class="task-info-modal" id="task-info-modal">
       <button class="task-complete">√完成任务</button>
       <button class="save-task">保存</button>
       <header class="task-info-create">
@@ -200,6 +213,8 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"
       defer
     ></script>
-    <script src="./JS/team_01.js" defer></script>
+    <script type="module" src="./JS/global.js"></script>
+    <script type="module" src="./JS/user_list.js"></script>
+    <script type="module" src="./JS/task.js" defer></script>
   </body>
 </html>

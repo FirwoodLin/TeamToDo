@@ -249,6 +249,8 @@ text-align: left;
     height: 60px;
     top: 7.5%;
     padding: 15px;
+    box-sizing: border-box;
+    margin-bottom: 40px;
   }
  
   .task-list {
@@ -259,6 +261,7 @@ text-align: left;
     top: 5%;
     width: calc(100% - 366px);
     list-style: none;
+    box-sizing: border-box;
   }
 
   .task-list > *:hover {
@@ -269,6 +272,7 @@ text-align: left;
   .task {
     position: relative;
     display: flex;
+    max-width: 100%; 
     color: rgb(0, 0, 0);
 font-family: Inter;
 font-size: 19px;
@@ -304,7 +308,7 @@ font-weight: 150;
   .catalog:nth-of-type(4), .item4 {
     grid-column: 4;
   }
-  
+
   .frame-child3,
   .rectangle-wrapper {
     position: absolute;
@@ -713,4 +717,49 @@ line-height: normal;
 
 .text-area label {
   width: 30%;
+}
+
+.delete-task {
+  position: absolute;
+  top: 18%;
+  right: 0;
+  height: 6px;
+  width: 21px;
+  border-radius: var(--br-33xl);
+  background-color: var(--color-lightslategray);
+}
+
+.task-info-modal a {
+  display: none;
+}
+
+.select-team label {
+  margin: 0 auto;
+}
+
+.select-team select {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  font-family: cursive, sans-serif;
+  outline: 0;
+  border: 1px solid crimson;
+  padding: 4px;
+  border-radius: 9px;
+}
+
+.select-team input {
+  margin: 0 auto;
+  background-color: var(--df);
+  color: white;
+  border: none;
+  border-radius: 10%;
+  width: 50px;  
+  height: 30px;
+}
+
+.select-team {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 50px 10px;
 }
