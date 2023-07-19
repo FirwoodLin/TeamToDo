@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Styles/searching.css">
+    <title>searching</title>
+</head>
+
+<body>
+
+    <div class="box">
+        <div class="title">TeamToDo</div>
+        <div class="searching-box">
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="输入你的搜索">
+                <button id="searchButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M33.1362 18.5681C33.1362 26.6139 26.6139 33.1363 18.5681 33.1363C10.5224 33.1363 4 26.6139 4 18.5681C4 10.5224 10.5224 4 18.5681 4C26.6139 4 33.1362 10.5224 33.1362 18.5681ZM30.2076 33.0361C27.0235 35.601 22.9751 37.1363 18.5681 37.1363C8.31323 37.1363 0 28.823 0 18.5681C0 8.31324 8.31323 0 18.5681 0C28.823 0 37.1362 8.31324 37.1362 18.5681C37.1362 22.9751 35.6009 27.0235 33.0361 30.2076L38.5504 35.722C39.3315 36.503 39.3315 37.7694 38.5504 38.5504C37.7694 39.3315 36.503 39.3315 35.722 38.5504L30.2076 33.0361Z"
+                            fill="#858585" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="search-options">
+            <label class="search-option">
+                <input type="checkbox" name="searchBy" value="user" />按用户任务
+            </label>
+            <label class="search-option">
+                <input type="checkbox" name="searchBy" value="group" />按群组任务
+            </label>
+            <label class="search-option">
+                <input type="checkbox" name="searchBy" value="keyword" />按关键词
+            </label>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
