@@ -85,6 +85,8 @@ func UserUpdateInfoHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 		return
 	}
+	// 维护userID
+	u.UserID = c.GetUint("userID")
 	// 全部传进去
 	if err := database.UserUpdate(&u); err != nil {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
