@@ -24,25 +24,9 @@ type Group struct {
 type UserGroup struct {
 	TimeModel
 	// 联合主键
-	UserID  int   `gorm:"primaryKey"`
-	GroupID int   `gorm:"primaryKey"`
+	UserID  uint  `gorm:"primaryKey"`
+	GroupID uint  `gorm:"primaryKey"`
 	Role    Role  `gorm:"column:role"`
 	User    User  `gorm:"foreignKey:userID"`
 	Group   Group `gorm:"foreignKey:groupID"`
-}
-type ApplyStatus int
-
-const (
-	ApplyStatusPending ApplyStatus = iota
-	ApplyStatusAgreed
-	ApplyStatusRejected
-)
-
-type GroupApplication struct {
-	TimeModel
-	GroupApplicationID uint        `json:"groupApplicationID" gorm:"column:groupApplicationID;primaryKey"`
-	GroupID            uint        `json:"groupID" gorm:"column:groupID"`
-	UserID             uint        `json:"userID" gorm:"column:userID"`
-	UserName           string      `json:"userName" gorm:"column:userName"`
-	Status             ApplyStatus `json:"status" gorm:"column:status"`
 }
