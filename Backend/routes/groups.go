@@ -15,13 +15,20 @@ func registerGroupsRoutes(e *gin.Engine) {
 	registerBasicGroupRoutes(group)
 
 	// 高级功能
-	// registerAdvancedGroupRoutes(group)
+	registerAdvancedGroupRoutes(group)
 
 }
 
 func registerBasicGroupRoutes(r *gin.RouterGroup) {
 	// 通过群组ID加群
-	r.POST("join", controller.JoinFromIDHandler)
+	r.POST("/join", controller.JoinFromIDHandler)
+
+	// 通过群组邀请码加群
+	r.POST("/join/codes", controller.JoinFromCodeHandler)
+
+	// // 通过群组邀请链接加群
+	// // 暂时留空
+	// r.POST("/join/links", controller.JoinFromLinkHandler)
 
 	// 创建群组
 	r.POST("/", controller.CreateGroupHandler)
@@ -31,6 +38,9 @@ func registerBasicGroupRoutes(r *gin.RouterGroup) {
 
 	// 查看个人群组
 	r.GET("/", controller.GetGroupsHandler)
+
+	// 查询群组所有成员
+	r.GET("/:groupID/members", controller.GetAllUsersInGroupHandler)
 
 }
 
@@ -43,7 +53,17 @@ func registerAdvancedGroupRoutes(r *gin.RouterGroup) {
 	// 更新申请状态
 	advanced.PUT("/applys/:applyID", controller.UpdateApplyStatusHandler)
 
-	// // 更新成员状态
-	// 更新成员状态这个太笼统了，设置管理员需要群主权限，移出成员只需要管理员权限
-	// advanced.PUT
+	// 更新成员状态（设置/取消管理员）
+	// 群主功能，考虑是不是顶级功能
+	advanced.PUT("/members/:targetUserID", controller.UpdateUserRoleHandler)
+
+	// 移出成员
+	advanced.DELETE("/member/:targetUserID", controller.RemoveUserFromHandler)
+
+	// 创建邀请码
+	advanced.POST("/join/codes", controller.GetInviteCodeHandler)
+
+	// // 创建邀请链接
+	// // 链接部分暂时留空
+	// advanced.POST("/join/links", controller.GetInviteLinkHandler)
 }

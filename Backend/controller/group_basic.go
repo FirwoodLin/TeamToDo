@@ -13,6 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// POST: "/api/groups/join"
 // 通过群ID加群
 func JoinFromIDHandler(c *gin.Context) {
 	userID := c.GetUint("userID")
@@ -30,6 +31,32 @@ func JoinFromIDHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(*resp))
 }
 
+// POST: "/api/groups/join/codes"
+// 通过群组邀请码加群
+func JoinFromCodeHandler(c *gin.Context) {
+	userID := c.GetUint("userID")
+	code := c.PostForm("code")
+	if code == "" {
+		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
+		return
+	}
+	resp, err := database.QueryGroupJoinInfo(code)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("不存在的邀请码"))
+		return
+	}
+	if err := database.AddGroupMember(userID, resp.GroupID, model.RoleMember); err != nil {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("该用户无法加入群组 "+err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))
+}
+
+// GET: "/api/groups/join/links"
+// 通过群组邀请链接加群
+// 暂时留空
+
+// POST: "/api/groups"
 // 创建群聊
 func CreateGroupHandler(c *gin.Context) {
 	userID := c.GetUint("userID")
@@ -57,6 +84,7 @@ func CreateGroupHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(*resp))
 }
 
+// DELETE: "api/groups/:groupID/members"
 // 退出群聊
 func QuitGroupHandler(c *gin.Context) {
 	userID := c.GetUint("userID")
@@ -74,12 +102,13 @@ func QuitGroupHandler(c *gin.Context) {
 		return
 	}
 	if err := database.QuitGroup(userID, uint(groupID)); err != nil {
-		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("无法退出这个群"))
 		return
 	}
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))
 }
 
+// GET: "/api/groups"
 // 获得当前用户的所有群聊
 func GetGroupsHandler(c *gin.Context) {
 	userID := c.GetUint("userID")
@@ -92,4 +121,21 @@ func GetGroupsHandler(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(*resp))
+}
+
+// GET: "/api/groups/:groupID/members"
+// 查看群组所有成员
+func GetAllUsersInGroupHandler(c *gin.Context) {
+	groupID, err := strconv.ParseUint(c.PostForm("groupID"), 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
+		return
+	}
+	// 查询这个群组的所有成员
+	resp, err := database.FindGroupMembers(uint(groupID))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("群组不存在"))
+		return
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(resp))
 }
