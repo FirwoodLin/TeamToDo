@@ -6,12 +6,12 @@ import (
 
 type User struct {
 	TimeModel
-	UserID     uint   `json:"userID" gorm:"primarykey"` // 使用 UserID 而非 UserId
-	UserName   string `json:"userName" gorm:"type:varchar(20)" validate:"max=20"`
-	UserAvatar string `json:"userAvatar" gorm:"type:varchar(100)" validate:"uri"`
-	Email      string `json:"email" gorm:"type:varchar(100);unique" validate:"required,email,max=100"`
-	Password   string `json:"password" gorm:"size:60" validate:"required,len=60"`
-	IsVerified bool   `json:"isVerified" gorm:"isVerified"`
+	UserID     uint   `json:"userID" gorm:"primaryKey;column:userID"` // 使用 UserID 而非 UserId
+	UserName   string `json:"userName" gorm:"type:varchar(20);column:userName" validate:"max=20"`
+	UserAvatar string `json:"userAvatar" gorm:"type:varchar(100);column:userAvatar" validate:"uri"`
+	Email      string `json:"email" gorm:"type:varchar(100);unique;column:email" validate:"required,email,max=100"`
+	Password   string `json:"password" gorm:"size:60;column:password" validate:"required,len=60"`
+	IsVerified bool   `json:"isVerified" gorm:"isVerified;column:isVerified"`
 	//Groups     []UserGroup         `json:"-" gorm:"foreignKey:UserID"`
 	validate *validator.Validate `gorm:"-"`
 }
