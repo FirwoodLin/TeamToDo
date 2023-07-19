@@ -120,7 +120,7 @@ func GetGroupsHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(*resp))
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(map[string]interface{}{"groups": *resp}))
 }
 
 // GET: "/api/groups/:groupID/members"
@@ -137,5 +137,5 @@ func GetAllUsersInGroupHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("群组不存在"))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(resp))
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(map[string]interface{}{"members": resp}))
 }

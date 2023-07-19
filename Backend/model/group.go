@@ -5,9 +5,9 @@ type Role int
 // 定义角色的方式
 const (
 	RoleVisitor Role = iota //  RoleVisitor 不在群组中 （被踢出）
-	RoleOwner
-	RoleAdmin
 	RoleMember
+	RoleAdmin
+	RoleOwner
 )
 
 type Group struct {

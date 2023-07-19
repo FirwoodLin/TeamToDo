@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GET: "/spi/groups/:groupsID/applys"
+// GET: "/api/groups/:groupsID/applys"
 // 获取所有的申请
 func GetApplysHandler(c *gin.Context) {
 	groupID := c.GetUint("groupID")

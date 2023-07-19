@@ -58,7 +58,7 @@ func GetTaskIdsFromUserTasks(userTasks []model.UserTask) (taskIDs []uint) {
 }
 
 // QueryTasksByTaskID 根据任务 ID 查询任务
-func QueryTasksByTaskID(taskID uint) (task model.Task, err error) {
+func QueryTaskByTaskID(taskID uint) (task model.Task, err error) {
 	err = global.Sql.Where("taskID = ?", taskID).First(&task).Error
 	if err != nil {
 		global.Logger.Infof("查询任务失败,taskID: %v,err:%v", taskID, err.Error())

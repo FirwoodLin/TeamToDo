@@ -14,7 +14,7 @@ func PostEmail(email, uuid string) error {
 	m.SetHeader("To", email)
 	m.SetHeader("VerifyTeamTodDo")
 
-	link := "http://127.0.0.1:8080/users/verify?uuid=" + uuid
+	link := "http://127.0.0.1:8080/api/users/verify?uuid=" + uuid
 
 	//先直接发送链接
 	m.SetBody("text/html", link)
