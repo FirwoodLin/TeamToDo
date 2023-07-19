@@ -8,7 +8,7 @@ import (
 )
 
 func registerUserRoutes(e *gin.Engine) {
-	user := e.Group("/users")
+	user := e.Group("/api/users")
 
 	// 用户注册
 	user.POST("/registration", controller.UserRegistrationHandler)
