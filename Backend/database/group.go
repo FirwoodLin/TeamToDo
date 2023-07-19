@@ -25,6 +25,14 @@ func GroupCreate(groupReq *request.GroupCreateRequest) (*model.Group, error) {
 	return &group, err
 }
 
+
+// CheckUserInGroup 检查用户是否在群组中（附带检查用户在群组中的身份）
+func CheckUserInGroup(userID uint, groupID uint) model.Role {
+	var userGroup model.UserGroup
+	_ = global.Sql.Where("user_id = ? AND group_id = ?", userID, groupID).First(&userGroup)
+	return userGroup.Role
+}
+
 // FindUserJoinedGroups 查看个人的群组；查找用户ID加入的所有群组
 // 使用中 暂时不修改参数类型
 func FindUserJoinedGroups(userID uint) (*[]model.UserGroup, error) {
@@ -48,13 +56,14 @@ func FindGroupMembers(groupID uint) (userGroups []model.UserGroup, err error) {
 	return userGroups, nil
 }
 
-// AddGroupMember 添加群组成员 - 服务层调用 - 在UserGroup表中添加一条记录
-func AddGroupMember(userID uint, groupID uint) error {
+
+// AddGroupMember 添加群组成员 - 服务层调用
+func AddGroupMember(userID uint, groupID uint, role model.Role) error {
 	db := global.Sql
 	var userGroup model.UserGroup
 	userGroup.UserID = userID
 	userGroup.GroupID = groupID
-	//userGroup.Role = role
+	userGroup.Role = role
 	if err := db.Create(&userGroup).Error; err != nil {
 		// 处理错误
 		global.Logger.Infof("添加群组成员时,数据库错误\n")
