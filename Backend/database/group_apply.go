@@ -36,7 +36,30 @@ func UpdateApplyStatus(applyID uint, applyStatus model.ApplyStatus) error {
 		global.Logger.Errorf("数据库错误，更新申请状态(id:%v)失败，错误信息为：%v", applyID, err)
 		return errors.New("数据库错误，更新申请状态失败")
 	}
+	global.Logger.Debug("UpdateApplyStatus: apply: ", apply)
 	return nil
+}
+
+// GetAllApplys 获取所有申请
+func GetAllApplys(groupID uint) (applys []model.GroupApply, err error) {
+	db := global.Sql.Model(&model.GroupApply{})
+	if err = db.Where("groupID = ?", groupID).Find(&applys).Error; err != nil {
+		global.Logger.Errorf("数据库错误，获取所有申请失败，错误信息为：%v", err)
+		return nil, err
+	}
+	global.Logger.Debug("GetAllApplys: applys: ", applys)
+	return applys, nil
+}
+
+// QueryApplyInfoByID 查询申请信息
+func QueryApplyInfoByID(applyID uint) (apply model.GroupApply, err error) {
+	db := global.Sql.Model(&model.GroupApply{})
+	if err = db.Where("groupApplyID = ?", applyID).Find(&apply).Error; err != nil {
+		global.Logger.Errorf("数据库错误，获取申请信息失败，错误信息为：%v", err)
+		return apply, err
+	}
+	global.Logger.Debug("QueryApplyInfo: apply: ", apply)
+	return apply, nil
 }
 
 //// FindGroupByUuid （加群-邀请链接）根据群UUID查找群ID
