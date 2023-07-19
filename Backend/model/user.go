@@ -12,7 +12,7 @@ type User struct {
 	Email      string `json:"email" gorm:"type:varchar(100);unique;column:email" validate:"required,email,max=100"`
 	Password   string `json:"password" gorm:"size:60;column:password" validate:"required,len=60"`
 	IsVerified bool   `json:"isVerified" gorm:"isVerified;column:isVerified"`
-	//Groups     []UserGroup         `json:"-" gorm:"foreignKey:UserID"`
+	// 校验函数
 	validate *validator.Validate `gorm:"-"`
 }
 type EmailVerification struct {
