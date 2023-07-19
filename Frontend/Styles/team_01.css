@@ -327,19 +327,10 @@ text-align: left;
   .task-details {
     position: inherit;
     left: 366px;
-    width: 100%;
+    width: calc(100% - 366px);
     height: 60px;
     top: 7.5%;
-  }
-
-  .catalog {
-    display: inline-block;
-    margin: 25px 35px;
-
-  }
-  .catalog1 {
-    display: inline-block;
-    margin: 25px 36% 25px 100px;
+    padding: 15px;
   }
  
   .task-list {
@@ -348,7 +339,7 @@ text-align: left;
     margin: 0;
     padding: 15px;
     top: 5%;
-    width: 100%;
+    width: calc(100% - 366px);
     list-style: none;
   }
 
@@ -370,38 +361,32 @@ font-weight: 150;
   .item3,
   .item4 {
    height: 60px;
-    margin: 0;
+   margin: 0;
     position: relative;
   }
-  .item1 {
-    top: 0;
-    left: 0;
-    width: 250px;
-    text-align: center;
-    line-height: 60px;
-  }
-  .item2 {
-    top: 0;
-    left: 640px;
-    width: 150px;
-    text-align: center;
-    line-height: 60px;
-  }
-  .item3 {
-    top: 0;
-    left: 650px;
-    width: 150px;
-    text-align: center;
-    line-height: 60px;
-  }
-  .item4 {
-   top: 0;
-   left: 680px;
-   width: 100px;
-   text-align: center;
-   line-height: 60px;
-  }
 
+  .task-details, .task {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    text-align: center;
+  }
+  .catalog:nth-of-type(1), .item1 {
+    grid-column: 1;
+  }
+  
+  .catalog:nth-of-type(2), .item2 {
+    grid-column: 2;
+  }
+  
+  .catalog:nth-of-type(3), .item3 {
+    grid-column: 3;
+  }
+  
+  .catalog:nth-of-type(4), .item4 {
+    grid-column: 4;
+  }
+  
   .frame-child3,
   .rectangle-wrapper {
     position: absolute;
@@ -544,7 +529,7 @@ font-weight: 150;
     border: 0;
     padding: 0;
     top: 32px;
-    left: 1660px;
+  right: 10%;
     border-radius: 65px;
     width: 140px;
     height: 45px;
