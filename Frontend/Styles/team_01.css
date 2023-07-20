@@ -777,3 +777,7 @@ line-height: normal;
     height: 30px;
 
 }
+
+#selected {
+  backgroud-color: rgba(195, 203, 216, 0.42);
+}
