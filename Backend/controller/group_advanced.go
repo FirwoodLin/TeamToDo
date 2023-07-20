@@ -78,11 +78,11 @@ func GetInviteCodeHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("生成邀请码失败 "+err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(cr.Code))
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"code": cr.Code}))
 }
 
-// // POST: "/api/groups/:groupID/join/links"
-// // 创建并返回邀请链接
+// POST: "/api/groups/:groupID/join/links"
+// 创建并返回邀请链接
 // func GetInviteLinkHandler(c *gin.Context) {
 // 	groupID := c.GetUint("groupID")
 // 	userID := c.GetUint("userID")
@@ -123,6 +123,28 @@ func RemoveUserFromHandler(c *gin.Context) {
 
 	if err := database.DeleteGroupMember(uint(targetUserID), groupID); err != nil {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("无法移出群组 "+err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))
+}
+
+// POST: "/api/groups/:groupID/members"
+// 添加成员
+func AddUserIntoGroupHandler(c *gin.Context) {
+	groupID := c.GetUint("groupID")
+	email := c.PostForm("email")
+
+	u, err := database.QueryUserByEmail(email)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
+		return
+	}
+	if utils.CheckUserInGroup(u.UserID, groupID) != model.RoleVisitor {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("加入失败，已经在群中"))
+		return
+	}
+	if err := database.AddGroupMember(u.UserID, groupID, model.RoleMember); err != nil {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("加入失败 "+err.Error()))
 		return
 	}
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))

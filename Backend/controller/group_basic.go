@@ -25,11 +25,18 @@ func JoinFromIDHandler(c *gin.Context) {
 	}
 	// 创建申请时大概会检查该群是否存在
 	resp, err := database.ApplyGroupByID(userID, uint(groupID))
+
+	/***************************/
+	// 应要求，现在申请通过群ID加群会直接加入
+	database.UpdateApplyStatus(resp.GroupApplyID, model.ApplyStatusAgreed)
+	database.AddGroupMember(resp.UserID, resp.GroupID, model.RoleMember)
+	/***************************/
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(*resp))
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"apply": *resp, "status": "加入成功"}))
 }
 
 // POST: "/api/groups/join/codes"
@@ -95,11 +102,14 @@ func QuitGroupHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 		return
 	}
-	// 退出群聊的前提是用户在群聊中
-	// 这里没有检查用户是不是群主，如果用户是群主会涉及群主转让，直接删除群聊等。。。
-	// 之后一定要加上检查是不是群主的函数
-	if utils.CheckUserInGroup(userID, uint(groupID)) == model.RoleVisitor {
+	// 检查用户在群组中的权限
+	role := utils.CheckUserInGroup(userID, uint(groupID))
+
+	if role == model.RoleVisitor {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("你并不在群聊中"))
+		return
+	} else if role == model.RoleOwner {
+		DisbandGroup(c, uint(groupID))
 		return
 	}
 	if err := database.QuitGroup(userID, uint(groupID)); err != nil {

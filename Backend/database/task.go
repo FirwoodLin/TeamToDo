@@ -3,6 +3,7 @@ package database
 import (
 	"TeamToDo/global"
 	"TeamToDo/model"
+	"TeamToDo/utils"
 )
 
 // TaskCreate 新建任务(需要检查用户身份后调用）返回值直接从传入的 task 读取
@@ -72,14 +73,23 @@ func GetTaskIdsFromUserTasks(userTasks []model.UserTask) (taskIDs []uint) {
 // QueryTasks 根据 用户群组[]uint,群组 []uint, 关键词 string 查询任务
 func QueryTasks(userGroupIDs []uint, groupIDs []uint, keyword string) (tasks []model.Task, err error) {
 	db := global.Sql.Model(&model.Task{})
+	var intersect []uint
 	if len(userGroupIDs) != 0 {
-		db = db.Where("groupID IN ?", userGroupIDs)
+		//db = db.Where("groupID IN ?", userGroupIDs)
+		intersect = userGroupIDs
 	}
 	if len(groupIDs) != 0 {
-		db = db.Where("groupID IN ?", groupIDs)
+		//db = db.Where("groupID IN ?", groupIDs)
+		if len(intersect) != 0 {
+			intersect = utils.Intersect(intersect, groupIDs)
+		} else {
+			intersect = groupIDs
+		}
 	}
+	db = db.Where("groupID IN ?", intersect)
+
 	if keyword != "" {
-		db = db.Where("name LIKE ?", "%"+keyword+"%")
+		db = db.Where("taskName LIKE ?", "%"+keyword+"%")
 	}
 	err = db.Find(&tasks).Error
 	if err != nil {

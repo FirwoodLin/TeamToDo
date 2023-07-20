@@ -31,7 +31,7 @@ func UserRegistrationHandler(c *gin.Context) {
 		return
 	}
 	// 发送邮件
-	if err := utils.PostEmail(u.Email, database.NewVerifyLinkUuid(u.Email)); err != nil {
+	if err := utils.PostEmail(u.Email, utils.GenerateActivateMail(database.NewVerifyLinkUuid(u.Email))); err != nil {
 		c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("无法发送邮件"))
 		return
 	}

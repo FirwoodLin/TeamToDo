@@ -20,5 +20,5 @@ func registerTasksRoutes(e *gin.Engine) {
 	task.PUT("/:taskID", controller.UpdateTaskHandler)
 
 	// 查询任务
-	// task.GET("/", controller.GetTasksHandler)
+	task.GET("/", controller.GetTasksHandler)
 }

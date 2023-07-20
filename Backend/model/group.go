@@ -16,7 +16,7 @@ type Group struct {
 	Description string `json:"description" gorm:"column:description"`
 	GroupName   string `json:"groupName"  gorm:"column:groupName"` // 群组名称
 	GroupAvatar string `json:"groupAvatar" gorm:"column:groupAvatar"`
-	MemberCount int    `json:"memberCount" gorm:"column:description"`
+	MemberCount int    `json:"memberCount" gorm:"column:memberCount"`
 	//Members     []UserGroup `gorm:"foreignKey:groupID"`
 }
 
