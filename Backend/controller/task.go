@@ -152,11 +152,21 @@ func GetTasksHandler(c *gin.Context) {
 	// 获取查询关键词
 	word := c.Query("word")
 
-	resp, err := database.QueryTasks(joinedGroupsID, targetGroupsID, word)
+	tasks, err := database.QueryTasks(joinedGroupsID, targetGroupsID, word)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
 		return
+	}
+	// 转换为返回形式
+	resp := make([]response.TaskResponse, 0)
+	for _, t := range tasks {
+		var r response.TaskResponse
+		if err := copier.Copy(&r, &t); err != nil {
+			c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("结构转换错误"))
+			return
+		}
+		resp = append(resp, r)
 	}
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"tasks": resp}))
 }
