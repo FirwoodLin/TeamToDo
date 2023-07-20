@@ -23,9 +23,11 @@ function login() {
                     userID = user.userID.toString();
                     userName = user.userName;
                     userAvatar = user.userAvatar;
+                    userEmail = email;
 
                     localStorage.setItem('userID',user.userID.toString());
                     localStorage.setItem('userName',user.userName);
+                    localStorage.setItem('userEmail', user.userEmail);
                     localStorage.setItem('userAvatar',user.userAvatar);
 
                     window.location.href = "index.html";
