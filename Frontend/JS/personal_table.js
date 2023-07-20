@@ -61,15 +61,49 @@ async function CreateGroup() {
         if(response.ok) {
             var groupID = data.data.groupID;
             groupIDInput.value = groupID;
+            alert('您已成功创建新群组！');
+            hideAll();
         }else {
             alert('啊哦~出现了一些错误');
         }
     }
     catch (error) {
         console.error('Error creating group:', error);
-        alert('出错啦 请稍后再试');
     }
 }
 
 var generateGroupButton = document.querySelector('.search-button2 button');
-generateGroupButton.addEventListener('click', createGroup); 
+generateGroupButton.addEventListener('click', CreateGroup); 
+
+
+// 通过群组ID加入群组
+var searchGroupID = document.getElementById('search-groupID');
+async function joinGroup() {
+    var groupID = searchGroupID.value;
+
+    try {
+        var response = await fetch('http://localhost:8080/api/groups/join', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                groupID: groupID
+            })
+        });
+        if(response.ok){
+            alert('您已成功加入该群组！');
+            hideAll();
+        }else {
+            alert('加入群组失败！请检查您的信息是否有误！')
+        }
+    }
+    catch (error) {
+        console.error('Error joining group:', error);
+
+    }
+
+}
+var joinTeamButton = document.querySelector('.search-button1 button');
+joinTeamButton.addEventListener('click',joinGroup);
