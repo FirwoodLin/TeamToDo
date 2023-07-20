@@ -5,6 +5,8 @@ var currentUserID;
 
 
 //global function
+
+// 查询所有群组ID
 function getGroupIDs() {
     fetch('/groups', {
       method: 'GET',
@@ -31,6 +33,7 @@ function getGroupIDs() {
     });
 };
 
+// 查询所有群组名
 function getGroupNames() {
     fetch('/groups', {
         method: 'GET',
@@ -57,6 +60,7 @@ function getGroupNames() {
       });
 };
 
+// 查询群组所有成员名
 function getGroupMemberNames(groupID) {
   fetch(`/groups/${groupID}/members`, {
     method: 'GET',
@@ -83,6 +87,7 @@ function getGroupMemberNames(groupID) {
   });
 };
 
+// 查询群组所有成员ID
 function getGroupMemberIDs(groupID) {
   fetch(`/groups/${groupID}/members`, {
     method: 'GET',
@@ -109,6 +114,7 @@ function getGroupMemberIDs(groupID) {
   });
 };
 
+// 查询群组所有成员Avatar
 function getGroupMemberAvatars(groupID) {
   fetch(`/groups/${groupID}/members`, {
     method: 'GET',
@@ -329,7 +335,6 @@ function formatDateTimeLocal(inputDateTimeLocal) {
   var offsetHours = Math.floor(offset / 60).toString().padStart(2, '0');
   var offsetMinutes = (offset % 60).toString().padStart(2, '0');
 
-  // Join the parts into an ISO 8601 string
   var outputDateTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${offsetSign}${offsetHours}:${offsetMinutes}`;
 
   return outputDateTime;
@@ -445,8 +450,33 @@ function initCurrentGroupID() {
   return firstGroupID;
 }
 
+// 查询成员在某群组的身份
+async function getUserRole(groupID) {
+  try {
+    var response = await fetch(`http://localhost:8080/api/groups/${groupID}`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    var data = await response.json();
+    if(response.ok) {
+      var userRole = data.data.role;
+      console.log('用户的身份是: '+userRole);
+      return userRole;
+    }else {
+      alert('查询失败: '+ data.hint);
+    }
+
+  }
+  catch(error) {
+    console.error('Error querying user role:', error);
+  }
+}
+
 //export
 export { token, currentGroupID, getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
   getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
-   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList};
+   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole};
 

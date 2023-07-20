@@ -7,6 +7,19 @@ const createTeamModal = document.getElementById('createTeamModal');
 var joinbtn = document.querySelector('.join-team-btn');
 var createbtn = document.querySelector('.create-team-btn');
 
+// 个人主页显示信息
+function showInformation() {
+    var userName = localStorage.getItem('userName');
+    var userEmail = localStorage.getItem('userEmail');
+
+    var userNameElement = document.getElementById('user-name');
+    var userEmailElement = document.getElementById('user-email');
+
+    userNameElement.textContent = userName;
+    userEmailElement.textContent = userEmail;
+}
+document.addEventListener('DOMContentLoaded',showInformation);
+
 // 默认隐藏
 document.addEventListener('DOMContentLoaded', hideAll);
 function hideAll() {
