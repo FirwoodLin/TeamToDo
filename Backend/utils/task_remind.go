@@ -4,8 +4,9 @@ import (
 	"TeamToDo/database"
 	"TeamToDo/global"
 	"TeamToDo/model"
-	"github.com/jinzhu/copier"
 	"time"
+
+	"github.com/jinzhu/copier"
 )
 
 var isFirst bool = true
