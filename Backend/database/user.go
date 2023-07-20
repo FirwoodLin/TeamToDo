@@ -23,13 +23,10 @@ func UserRegister(userReq *request.UserRegisterRequest) (userResponse *response.
 		global.Logger.Info("注册用户时,数据不合规\n")
 		return nil, err
 	}
-	// 查询该用户是否注册过(名称/邮箱) -> 没必要，因为在数据库中设置了 unique 约束
-	//if isExistUser(userReq) {
-	//	return nil, errors.New("该用户名/邮箱已注册")
-	//}
-	// 注册用户 -> 在此处凭借数据库的 unique 约束来实现查重
+	// 创建用户
 	userResponse, err = createUser(userReq)
 	if err != nil {
+		global.Logger.Errorf("创建用户错误\n")
 		return nil, err
 	}
 	return userResponse, nil
@@ -38,8 +35,8 @@ func UserRegister(userReq *request.UserRegisterRequest) (userResponse *response.
 // createUser 创建用户 - 内部函数
 func createUser(userReq *request.UserRegisterRequest) (*response.UserResponse, error) {
 	// 改用 copier 进行结构体转换
-	user := &model.User{}
-	err := copier.Copy(&user, &userReq)
+	user := model.User{}
+	err := copier.Copy(&user, userReq)
 	if err != nil {
 		global.Logger.Errorf("用户注册时,结构体转换错误\n")
 		return nil, err
@@ -51,7 +48,7 @@ func createUser(userReq *request.UserRegisterRequest) (*response.UserResponse, e
 		return nil, err
 	}
 	// 存入数据库
-	if err := global.Sql.Create(user).Error; err != nil {
+	if err := global.Sql.Create(&user).Error; err != nil {
 		global.Logger.Errorf("创建用户错误\n")
 		return nil, err
 	}
@@ -162,4 +159,16 @@ func DeleteUser(userID uint) (err error) {
 	log.Printf("[info]model-DeleteUser,delete userid:%v\n", userID)
 
 	return nil
+}
+
+// UserQueryOneAllInfo 查询用户信息 -- 传入用户 ID;返回所有信息
+func UserQueryOneAllInfo(userID uint) (*model.User, error) {
+	var user model.User
+	db := global.Sql.Model(&model.User{})
+	user.UserID = userID
+	if err := db.Find(&user).Error; err != nil {
+		global.Logger.Infof("查询用户信息,查找不到用户,id:%v", userID)
+		return nil, err
+	}
+	return &user, nil
 }
