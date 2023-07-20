@@ -1,4 +1,4 @@
-package utils
+package initialize
 
 import (
 	"TeamToDo/database"
@@ -96,10 +96,13 @@ func remindTask(task TaskRemind) {
 			return
 		}
 		// 发送邮件 TODO：完成SendMail 函数
-		err = SendEmail(user.Email, task.TaskName, task.Description)
+		err = SendEmail(user)
 		if err != nil {
 			global.Logger.Errorf("提醒模块-发送邮件出错：%v", err)
 			return
 		}
 	}
+}
+func SendEmail(user *model.User) error {
+	return nil
 }

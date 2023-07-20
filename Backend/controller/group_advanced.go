@@ -78,7 +78,7 @@ func GetInviteCodeHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("生成邀请码失败 "+err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(cr.Code))
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"code": cr.Code}))
 }
 
 // // POST: "/api/groups/:groupID/join/links"

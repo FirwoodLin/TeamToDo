@@ -75,7 +75,7 @@ func AddGroupMember(userID uint, groupID uint, role model.Role) error {
 		return err
 	}
 	if err := tx.Model(&model.Group{}).
-		Where("group_id = ?", groupID).
+		Where("groupID = ?", groupID).
 		Update("memberCount", gorm.Expr("memberCount + ?", 1)).
 		Error; err != nil {
 		// 处理错误
@@ -154,6 +154,30 @@ func QuitGroup(userID uint, groupID uint) error {
 	if err := db.Delete(&userGroup).Error; err != nil {
 		// 处理错误
 		global.Logger.Infof("退出群组时,数据库错误\n")
+		return err
+	}
+	return nil
+}
+
+// DeleteUserGroups 根据群组ID,删除所有UserGroup关系
+func DeleteUserGroups(groupID uint) error {
+	db := global.Sql
+	if err := db.Where("groupID = ?", groupID).
+		Delete(&model.UserGroup{}).Error; err != nil {
+		// 处理错误
+		global.Logger.Infof("删除群组时,数据库错误\n")
+		return err
+	}
+	return nil
+}
+
+// DeleteGroup 删除群组
+func DeleteGroup(groupID uint) error {
+	db := global.Sql
+	if err := db.Where("groupID = ?", groupID).
+		Delete(&model.Group{}).Error; err != nil {
+		// 处理错误
+		global.Logger.Infof("删除群组时,数据库错误\n")
 		return err
 	}
 	return nil
