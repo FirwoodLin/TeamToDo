@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>激活你的账户</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      /* background-image: url("{{.Background}}");
+      background-repeat: no-repeat;
+      background-size: cover; */
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #f9f9f9;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .logo {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+    }
+    .content {
+      text-align: center;
+    }
+    .cta {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #1a73e8;
+      color: #fff;
+      text-decoration: none;
+    }
+    .copyright {
+      font-size: 12px;
+      text-align: center;
+      color: #333;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="{{.Logo}}" class="logo">
+    <div class="content">
+      <h1>感谢您的注册！</h1>
+      <p>请点击下方的激活链接以完成您的注册过程：</p>
+      <a href="{{.Link}}" class="cta">激活我的帐户</a>
+    </div>
+    <p class="copyright">&copy; 2023 TeamToDo 保留所有权利</p>
+  </div>
+</body>
+</html>
