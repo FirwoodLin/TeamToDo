@@ -1,0 +1,74 @@
+.box2 {
+  background: #fff;
+  border-radius: 100px 12px;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 600px;
+  height: 400px;
+  display: flex;
+  box-shadow: 0 4px 237px #00000040;
+}
+
+.quit-btn2 {
+  fill: #000;
+  text-align: end;
+  flex: 1 0;
+  margin-top: 25px;
+  margin-right: 25px;
+}
+
+.title2 {
+  color: var(--2866-df, #2866df);
+  text-align: center;
+  flex: 1 0;
+  font-family: Inter;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+}
+
+.input2 {
+  text-align: center;
+  border-radius: 16px;
+  flex: 3 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+#group-name, #group-description, #group-ID {
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 16px;
+  width: 250px;
+  height: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 45px;
+  font-size: 20px;
+}
+
+.search-button2 {
+  flex: 5 0;
+  justify-content: center;
+  display: flex;
+}
+
+.search-button2 button {
+  color: #e9f0f6;
+  background: #2866df;
+  border: none;
+  border-radius: 16px;
+  width: 300px;
+  height: 48px;
+  margin-top: 15px;
+  font-size: 20px;
+}
+
+.search-button2 button:active {
+  background: #5682bf;
+  box-shadow: 0 4px 10px #00000080;
+}
+
+/*# sourceMappingURL=personal_table.bd0a6a21.css.map */

@@ -10,34 +10,34 @@ var UserID;
 
 // 查询所有群组ID
 function getGroupIDs() {
-    fetch('/groups', {
-      method: 'GET',
-      headers: {
-        'Authorization': 'Bearer ' + token,
-      },
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-      }
-      return response.json();
-    })
-    .then(json => {
-      if (json.success) {
-        let groupIDs = json.data.groups.map(group => group.groupID);
-        return groupIDs;
-      } else {
-        throw new Error(json.hint); 
-      }
-    })
-    .catch(error => {
-      console.error('An error occurred:', error);
-    });
+//     fetch('http://localhost:8080/api/groups', {
+//       method: 'GET',
+//       headers: {
+//         'Authorization': 'Bearer ' + token,
+//       },
+//     })
+//     .then(response => {
+//       if (!response.ok) {
+//         throw new Error("HTTP error " + response.status);
+//       }
+//       return response.json();
+//     })
+//     .then(json => {
+//       if (json.success) {
+//         let groupIDs = json.data.groups.map(group => group.groupID);
+//         return groupIDs;
+//       } else {
+//         throw new Error(json.hint); 
+//       }
+//     })
+//     .catch(error => {
+//       console.error('An error occurred:', error);
+//     });
 };
 
 // 查询所有群组名
 function getGroupNames() {
-    fetch('/groups', {
+    fetch('http://localhost:8080/api/groups', {
         method: 'GET',
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -64,7 +64,7 @@ function getGroupNames() {
 
 // 查询群组所有成员名
 function getGroupMemberNames(groupID) {
-  fetch(`/groups/${groupID}/members`, {
+  fetch(`http://localhost:8080/api/groups/${groupID}/members`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`
@@ -91,7 +91,7 @@ function getGroupMemberNames(groupID) {
 
 // 查询群组所有成员ID
 function getGroupMemberIDs(groupID) {
-  fetch(`/groups/${groupID}/members`, {
+  fetch(`http://localhost:8080/api/groups/${groupID}/members`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`
@@ -118,7 +118,7 @@ function getGroupMemberIDs(groupID) {
 
 // 查询群组所有成员Avatar
 function getGroupMemberAvatars(groupID) {
-  fetch(`/groups/${groupID}/members`, {
+  fetch(`http://localhost:8080/api/groups/${groupID}/members`, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`
@@ -463,8 +463,9 @@ function updateTaskList(groupID, userID) {
 }
 
 function initCurrentGroupID() {
-  let firstGroupID = getGroupIDs()[0];
-  return firstGroupID;
+  // let firstGroupID = getGroupIDs()[0];
+  // return firstGroupID;
+  return ""
 }
 
 // 查询成员在某群组的身份

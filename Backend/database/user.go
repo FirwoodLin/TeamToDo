@@ -83,7 +83,7 @@ func UserSignIn(userReq *request.UserSignInRequest) (userResponse *response.User
 	// 检查密码是否一致
 	if err := utils.ComparePassword(userReq, &user); err != nil {
 		//if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(userReq.Password)); err != nil {
-		global.Logger.Infof("登陆密码不正确,email:%v\n", userReq.Email)
+		global.Logger.Infof("登陆密码不正确,email:%v,pwd:%v\n", userReq.Email, userReq.Password)
 		return nil, errors.New("密码不正确")
 	}
 	userResponse = &response.UserResponse{UserID: user.UserID}
