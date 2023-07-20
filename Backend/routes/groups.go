@@ -65,6 +65,9 @@ func registerAdvancedGroupRoutes(r *gin.RouterGroup) {
 	// 创建邀请码
 	advanced.POST("/join/codes", controller.GetInviteCodeHandler)
 
+	// 添加成员
+	advanced.POST("/members", controller.AddUserIntoGroupHandler)
+
 	// // 创建邀请链接
 	// // 链接部分暂时留空
 	// advanced.POST("/join/links", controller.GetInviteLinkHandler)

@@ -25,11 +25,18 @@ func JoinFromIDHandler(c *gin.Context) {
 	}
 	// 创建申请时大概会检查该群是否存在
 	resp, err := database.ApplyGroupByID(userID, uint(groupID))
+
+	/***************************/
+	// 应要求，现在申请通过群ID加群会直接加入
+	database.UpdateApplyStatus(resp.GroupApplyID, model.ApplyStatusAgreed)
+	database.AddGroupMember(resp.UserID, resp.GroupID, model.RoleMember)
+	/***************************/
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(*resp))
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"apply": *resp, "status": "加入成功"}))
 }
 
 // POST: "/api/groups/join/codes"
