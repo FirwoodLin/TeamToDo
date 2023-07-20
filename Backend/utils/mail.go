@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"html/template"
+	"os"
 
 	"gopkg.in/gomail.v2"
 )
@@ -14,9 +15,9 @@ var items = map[string]interface{}{
 	"Link": "",
 }
 
-// 读取渲染激活邮件
+// GenerateActivateMail 读取渲染 激活邮件
 func GenerateActivateMail(uuid string) string {
-	link := "http://127.0.0.1:8080/api/users/verify?uuid=" + uuid
+	link := global.Server.Server.Host + ":" + global.Server.Server.Port + "/api/users/verify?uuid=" + uuid
 
 	items["Link"] = link
 	items["Logo"] = global.Server.Mail.Logo
@@ -24,9 +25,9 @@ func GenerateActivateMail(uuid string) string {
 	return generateMail("./template/activate.tmpl", items, link)
 }
 
-// 读取渲染定时题型邮件
+// GenerateRemindMail 读取渲染 定时型邮件
 func GenerateRemindMail(taskName, taskDesc, startTime, DeadLine string) string {
-	link := "http://127.0.0.1:8080"
+	link := global.Server.Server.Host + ":" + global.Server.Server.Port
 
 	items["Link"] = link
 	items["Logo"] = global.Server.Mail.Logo
@@ -34,13 +35,17 @@ func GenerateRemindMail(taskName, taskDesc, startTime, DeadLine string) string {
 	items["TaskDesc"] = taskDesc
 	items["StartTime"] = startTime
 	items["DeadLine"] = DeadLine
-
+	//global.Logger.Debugf("GenerateRemindMail, items: %v", items)
 	return generateMail("./template/remind.tmpl", items, link)
 }
 
 // 生成一般邮件
 func generateMail(filename string, data map[string]interface{}, defaultRet string) string {
-	tmpl, err := template.New("Mail").ParseFiles(filename)
+	file, err := os.ReadFile("./template/remind.tmpl")
+	//fmt.Println(file)
+	// 将file 转换为string
+	str := string(file)
+	tmpl, err := template.New("Mail").Parse(str)
 
 	if err != nil {
 		global.Logger.Infof("读取模板失败，err: %s", err)
@@ -56,16 +61,14 @@ func generateMail(filename string, data map[string]interface{}, defaultRet strin
 	return buf.String()
 }
 
-// 发送邮件
+// PostEmail 发送邮件
 func PostEmail(email, text string) error {
+	global.Logger.Debugf("PostEmail ready to 发送邮件给：%s", email)
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", global.Server.Mail.Username)
+	m.SetHeader("From", "TeamToDo 团队 <"+global.Server.Mail.Username+">")
 	m.SetHeader("To", email)
-	m.SetHeader("VerifyTeamTodDo")
-
-	// 发送html
-	m.SetBody("text/html", text)
+	m.SetBody("text/html", text) // 发送html
 
 	d := gomail.NewDialer(
 		global.Server.Mail.Host,
@@ -76,6 +79,7 @@ func PostEmail(email, text string) error {
 	d.TLSConfig = &tls.Config{InsecureSkipVerify: true}
 
 	if err := d.DialAndSend(m); err != nil {
+		global.Logger.Errorf("发送邮件to %s失败，err: %s", email, err.Error())
 		return err
 	}
 	return nil
