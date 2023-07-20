@@ -1,3 +1,5 @@
+import { currentUserAvatar, currentUserEmail, currentUserID, currentUserName, UserID } from "./global";
+
 var button = document.querySelector('button');
 button.addEventListener('click',register);
 
@@ -5,14 +7,15 @@ function register () {
     var email = document.getElementById('email').value;
     var pwd1 = document.getElementById('pwd1').value;
     var pwd2 = document.getElementById('pwd2').value;
+    
 
     if (pwd1 !== pwd2) {
-        alert('请重新输入密码');
+        alert('两次密码不一致，请重新输入密码');
         document.getElementById("pwd1").value = "";
         document.getElementById("pwd2").value = "";
     }
     else {
-        password = pwd1;
+        var password = pwd1;
 
         fetch('http://localhost:8080/users/registration', {
             method: 'POST',
@@ -24,6 +27,7 @@ function register () {
 
         })
         .then((response) => {
+            console.log('返回response');
             if (!response.ok){
                 return response.json();
             }else {
@@ -32,6 +36,11 @@ function register () {
         })
         .then(message => {
             if(message.success) {
+                currentUserEmail = email;
+                UserID = message.data.UserID;
+                currentUserID = message.data.userID;
+                currentUserName = message.data.userName;
+                currentUserAvatar = message.data.userAvatar;
                 localStorage.setItem('userID', message.data.userID);
                 localStorage.setItem('userName', message.data.userName);
                 localStorage.setItem('userAvatar', message.data.userAvatar);

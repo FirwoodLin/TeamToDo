@@ -1,7 +1,7 @@
 var button = document.querySelector("button");
 button.addEventListener('click',login);
 
-import { token, userID, userName, userAvatar } from "./global.js";
+import { token, currentUserID, currentUserName, currentUserEmail, currentUserAvatar, UserID } from "./global.js";
 
 function login() {
     var email = document.getElementById("email").value;
@@ -20,10 +20,11 @@ function login() {
                     localStorage.setItem('token',token);
 
                     var user = response.data.user;
-                    userID = user.userID.toString();
-                    userName = user.userName;
-                    userAvatar = user.userAvatar;
-                    userEmail = email;
+                    UserID = user.userID.toString();
+                    currentUserID = user.userID.toString();
+                    currentUserName = user.userName;
+                    currentUserAvatar = user.userAvatar;
+                    currentUserEmail = email;
 
                     localStorage.setItem('userID',user.userID.toString());
                     localStorage.setItem('userName',user.userName);

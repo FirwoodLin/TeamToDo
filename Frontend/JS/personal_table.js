@@ -1,4 +1,4 @@
-import { token } from "./global.js";
+import { token, currentUserID,currentUserName,currentUserEmail } from "./global.js";
 
 
 const joinTeamModal = document.getElementById('joinTeamModal');
@@ -9,14 +9,14 @@ var createbtn = document.querySelector('.create-team-btn');
 
 // 个人主页显示信息
 function showInformation() {
-    var userName = localStorage.getItem('userName');
-    var userEmail = localStorage.getItem('userEmail');
+    // var userName = localStorage.getItem('userName');
+    // var userEmail = localStorage.getItem('userEmail');
 
     var userNameElement = document.getElementById('user-name');
     var userEmailElement = document.getElementById('user-email');
 
-    userNameElement.textContent = userName;
-    userEmailElement.textContent = userEmail;
+    userNameElement.textContent = currentUserName;
+    userEmailElement.textContent = currentUserEmail;
 }
 document.addEventListener('DOMContentLoaded',showInformation);
 
