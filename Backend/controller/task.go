@@ -125,19 +125,48 @@ func UpdateTaskHandler(c *gin.Context) {
 // GET: "/api/tasks"
 // 查询任务
 func GetTasksHandler(c *gin.Context) {
-	var tr request.TaskQueryRequest
 	userID := c.GetUint("userID")
-	groupsID := make([]uint, 0)
-	if err := c.ShouldBind(&tr); err != nil {
-		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
+	targetGroupsID := make([]uint, 0)
+	joinedGroupsID := make([]uint, 0)
+	joinedGroups, err := database.FindUserJoinedGroups(userID)
+	// 获取已经加入的群组
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
 		return
 	}
-	for _, g := range tr.GroupID {
-		if utils.CheckUserInGroup(userID, g) == model.RoleVisitor {
-			continue
-		}
-		groupsID = append(groupsID, g)
+	for _, g := range *joinedGroups {
+		joinedGroupsID = append(joinedGroupsID, g.GroupID)
 	}
-	tr.GroupID = groupsID
-	// 先放在这里
+
+	// 获取想要查询的群组
+	targetGroups := c.QueryArray("groupID")
+	for _, s := range targetGroups {
+		if id, err := strconv.ParseUint(s, 10, 32); err != nil {
+			c.JSON(http.StatusBadRequest, response.InvalidInfoError)
+			return
+		} else {
+			targetGroupsID = append(targetGroupsID, uint(id))
+		}
+	}
+
+	// 获取查询关键词
+	word := c.Query("word")
+
+	tasks, err := database.QueryTasks(joinedGroupsID, targetGroupsID, word)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
+		return
+	}
+	// 转换为返回形式
+	resp := make([]response.TaskResponse, 0)
+	for _, t := range tasks {
+		var r response.TaskResponse
+		if err := copier.Copy(&r, &t); err != nil {
+			c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("结构转换错误"))
+			return
+		}
+		resp = append(resp, r)
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"tasks": resp}))
 }

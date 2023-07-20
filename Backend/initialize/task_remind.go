@@ -1,9 +1,10 @@
-package utils
+package initialize
 
 import (
 	"TeamToDo/database"
 	"TeamToDo/global"
 	"TeamToDo/model"
+	"TeamToDo/utils"
 	"time"
 
 	"github.com/jinzhu/copier"
@@ -97,7 +98,7 @@ func remindTask(task TaskRemind) {
 			return
 		}
 		// 发送邮件 TODO：完成SendMail 函数
-		err = SendEmail(user.Email, task.TaskName, task.Description)
+		err = utils.PostEmail(user.Email, utils.GenerateRemindMail(task.TaskName, *task.Description, task.StartAt.String(), task.Deadline.String()))
 		if err != nil {
 			global.Logger.Errorf("提醒模块-发送邮件出错：%v", err)
 			return
