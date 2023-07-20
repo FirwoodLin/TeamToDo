@@ -1,7 +1,8 @@
 //global variable
 var token;
 var currentGroupID = initCurrentGroupID();
-var currentUserID;
+var currentUserID, currentUserName, currentUserEmail, currentUserAvatar;
+var UserID;
 
 
 //global function
@@ -476,7 +477,8 @@ async function getUserRole(groupID) {
 }
 
 //export
-export { token, currentGroupID, getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
+export {
+  token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar,UserID,getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
   getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
    formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole};
 
