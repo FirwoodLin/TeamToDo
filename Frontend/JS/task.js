@@ -1,4 +1,6 @@
-import {token} from "./global.js";
+import {token, currentGroupID, getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
+  getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
+   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList} from "./global.js";
 
 (function() {
     const taskModal = document.querySelector('.task-info-modal');
