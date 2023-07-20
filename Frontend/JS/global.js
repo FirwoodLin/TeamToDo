@@ -469,10 +469,9 @@ async function getUserRole(groupID) {
     }else {
       alert('查询失败: '+ data.hint);
     }
-
   }
   catch(error) {
-    console.error('Error querying user role:', error);
+    console.error('Error querying user role:'+ error);
   }
 }
 

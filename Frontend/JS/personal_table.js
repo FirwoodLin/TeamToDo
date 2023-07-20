@@ -81,7 +81,7 @@ async function CreateGroup() {
         }
     }
     catch (error) {
-        console.error('Error creating group:', error);
+        console.error('Error creating group:'+ error);
     }
 }
 
@@ -113,7 +113,7 @@ async function joinGroup() {
         }
     }
     catch (error) {
-        console.error('Error joining group:', error);
+        console.error('Error joining group:'+ error);
 
     }
 
