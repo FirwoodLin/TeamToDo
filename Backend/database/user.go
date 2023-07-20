@@ -8,7 +8,6 @@ import (
 	"TeamToDo/utils"
 	"errors"
 	"fmt"
-	"log"
 	"strconv"
 
 	"github.com/go-playground/validator/v10"
@@ -156,7 +155,7 @@ func DeleteUser(userID uint) (err error) {
 		global.Logger.Errorf("DeleteUser 出错,%v\n", err.Error())
 		return err
 	}
-	log.Printf("[info]model-DeleteUser,delete userid:%v\n", userID)
+	//log.Printf("[info]model-DeleteUser,delete userid:%v\n", userID)
 
 	return nil
 }
@@ -168,6 +167,17 @@ func UserQueryOneAllInfo(userID uint) (*model.User, error) {
 	user.UserID = userID
 	if err := db.Find(&user).Error; err != nil {
 		global.Logger.Infof("查询用户信息,查找不到用户,id:%v", userID)
+		return nil, err
+	}
+	return &user, nil
+}
+
+// QueryUserByEmail 根据邮箱查询用户信息
+func QueryUserByEmail(email string) (*model.User, error) {
+	var user model.User
+	db := global.Sql.Model(&model.User{})
+	if err := db.Where("email = ?", email).Find(&user).Error; err != nil {
+		global.Logger.Infof("查询用户信息,查找不到用户,email:%v", email)
 		return nil, err
 	}
 	return &user, nil

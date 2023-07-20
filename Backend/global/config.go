@@ -54,6 +54,10 @@ type Email struct {
 	Post     int    `mapstructure:"Port"`
 	Logo     string `mapstructure:"Logo"`
 }
+type ServerAddress struct {
+	Host string `mapstructure:"Host"`
+	Port string `mapstructure:"Port"`
+}
 type Config struct {
 	MySQL  MySQLConfig   `mapstructure:"Mysql"`
 	Redis  RedisConfig   `mapstructure:"Redis"`
@@ -63,6 +67,7 @@ type Config struct {
 	Avatar DefaultAvatar `mapstructure:"DefaultAvatar"`
 	JWT    JWT           `mapstructure:"JWT"`
 	Mail   Email         `mapstructure:"mail"`
+	Server ServerAddress `mapstructure:"server"`
 }
 
 //var Server Config

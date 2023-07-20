@@ -17,7 +17,7 @@ func GetTasksByDeadline(startTime string, endTime string) (tasks []model.Task, e
 // GetTasksByStartTime 获取*开始时间*在startTime和endTime之间的任务列表
 func GetTasksByStartTime(startTime string, endTime string) (tasks []model.Task, err error) {
 	err = global.Sql.
-		Where("startTime BETWEEN ? AND ?", startTime, endTime).
+		Where("startAt BETWEEN ? AND ?", startTime, endTime).
 		Where("taskStatus = ?", model.NotStarted).
 		Find(&tasks).Error
 	return

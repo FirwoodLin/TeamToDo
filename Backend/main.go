@@ -20,5 +20,7 @@ func main() {
 	// 创建路由引擎
 	r := routes.SetupRoutes()
 	// 开始运行
+	go initialize.Scheduler()
 	_ = r.Run(":8080")
+
 }

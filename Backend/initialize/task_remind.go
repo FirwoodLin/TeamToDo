@@ -5,11 +5,16 @@ import (
 	"TeamToDo/global"
 	"TeamToDo/model"
 	"TeamToDo/utils"
-	"time"
 	"github.com/jinzhu/copier"
+	"time"
 )
 
 var isFirst bool = true
+
+const (
+	interval = 90 * time.Second // 每隔 interval 时间执行一次
+	before   = 10 * time.Second // 任务结束前多久提醒
+)
 
 type TaskRemind struct {
 	// 任务基本信息
@@ -28,27 +33,25 @@ type TaskRemind struct {
 func Scheduler() {
 	for {
 		if !isFirst {
-			timer := time.NewTicker(1 * time.Hour)
+			timer := time.NewTicker(interval) // 每隔 interval 时间执行一次
 			<-timer.C
 		}
 		isFirst = false
 
-		// 获取接下来一小时内需要发送的任务列表，并进行合并:(截止日期将近 且 没有完成) & (开始日期将近 且 没有开始)
-		// 距离截止日期 30min 的任务
-		tasksDDL, err := database.GetTasksByDeadline(formatTime(0), formatTime(1))
+		// 获取接下来 interval 内需要发送的任务列表：(截止日期将近 且 没有完成) ， (开始日期将近 且 没有开始)
+		// 距离截止日期 before 的任务
+		tasksDDL, err := database.GetTasksByDeadline(formatTime(0), formatTime(interval))
 		if err != nil {
 			global.Logger.Errorf("查询一小时任务列表出错：%v", err)
 			return
 		}
-		// 下一个小时开始的任务
-		tasksStart, err := database.GetTasksByStartTime(formatTime(0), formatTime(1))
-		//var tasks []model.Task
-		//tasks = append(tasks, tasksDDL...)
-		//tasks = append(tasks, tasksStart...)
+		// 下一个 interval 内开始的任务
+		tasksStart, err := database.GetTasksByStartTime(formatTime(0), formatTime(interval))
 		if err != nil {
 			global.Logger.Errorf("查询一小时任务列表出错：%v", err)
 			return
 		}
+		global.Logger.Debugf("DB:最近%v秒任务列表长度：%v", interval.Seconds(), len(tasksDDL)+len(tasksStart))
 		// 任务通道
 		ch := make(chan TaskRemind, 100)         // 容量100
 		taskFunc := func(ch <-chan TaskRemind) { // 新建处理任务函数: 从通道中读取任务并发送给 remindTask
@@ -59,28 +62,37 @@ func Scheduler() {
 		go taskFunc(ch) // 开启处理任务协程
 		// 投递任务
 		for _, task := range tasksDDL {
+			// 截止时间
 			var taskRemind TaskRemind
 			_ = copier.Copy(&taskRemind, &task)
-			taskRemind.NoticeTime = task.Deadline.Add(-30 * time.Minute) // 设置提醒时间为截止日期前30min
+			taskRemind.NoticeTime = task.Deadline.Add(-before) // 设置提醒时间为截止时间前 before
 			ch <- taskRemind
+			global.Logger.Debugf("ch len %v;tasksDDL ID:%v", len(ch), task.TaskID)
 		}
 		for _, task := range tasksStart {
+			// 开始时间
 			var taskRemind TaskRemind
 			_ = copier.Copy(&taskRemind, &task)
 			taskRemind.NoticeTime = task.StartAt // 设置提醒时间为开始时间
 			ch <- taskRemind
+			global.Logger.Debugf("ch len %v;tasksStart ID:%v", len(ch), task.TaskID)
+
 		}
+		close(ch) // 关闭通道
 	}
 }
 
-// 获取当前时间加上 hourToAdd 个小时的时间字符串
-func formatTime(hourToAdd time.Duration) string {
-	return time.Now().Add(time.Hour * hourToAdd).Format("2006-01-02 15:04:05")
+// 获取当前时间加上 durationToAdd 时长的时间字符串
+func formatTime(durationToAdd time.Duration) string {
+	return time.Now().Add(durationToAdd).Format("2006-01-02 15:04:05")
 }
 func remindTask(task TaskRemind) {
 	// 设置发件时间（定时器）
-	diff := task.NoticeTime.Sub(time.Now())
+	loc, _ := time.LoadLocation("Asia/Shanghai")
+	now := time.Now().In(loc).Add(time.Hour * 8) // 获取当前北京时间 // walkAround
+	diff := task.NoticeTime.Sub(now)
 	timer := time.NewTimer(diff)
+	global.Logger.Debugf("提醒模块-提醒时间：%v,diff:%v", task.NoticeTime, diff)
 	<-timer.C
 	// 获取任务的参与者
 	userGroups, err := database.FindGroupMembers(task.GroupID)
@@ -97,11 +109,15 @@ func remindTask(task TaskRemind) {
 			return
 		}
 		// 发送邮件
-		err = utils.PostEmail(user.Email, utils.GenerateRemindMail(task.TaskName, *task.Description, task.StartAt.String(), task.Deadline.String()))
+		err = utils.PostEmail(
+			user.Email,
+			utils.GenerateRemindMail(task.TaskName,
+				*task.Description,
+				task.StartAt.Format("2006-01-02 15:04:05"),
+				task.Deadline.Format("2006-01-02 15:04:05")))
 		if err != nil {
 			global.Logger.Errorf("提醒模块-发送邮件出错：%v", err)
 			return
 		}
 	}
 }
-
