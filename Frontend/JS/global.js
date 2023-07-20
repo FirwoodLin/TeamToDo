@@ -1,5 +1,7 @@
 //global variable
 var token;
+var currentGroupID = initCurrentGroupID();
+var currentUserID;
 
 
 //global function
@@ -333,7 +335,118 @@ function formatDateTimeLocal(inputDateTimeLocal) {
   return outputDateTime;
 }
 
+function updateSelectOptions() {
+  let groupNames = getGroupNames();
+  let groupIDs = getGroupIDs();
+  let select = document.getElementById('teams');
+
+  select.innerHTML = '';
+
+  for (let i = 0; i < groupNames.length; i++) {
+      let option = document.createElement('option');
+      option.value = groupIDs[i];
+      option.text = groupNames[i];
+      select.appendChild(option);
+  }
+}
+
+
+
+function updateGroupMembersList(groupID) {
+  // 调用相应的函数获取新的成员名称，ID 和头像
+  let memberNames = getGroupMemberNames(groupID);
+  let memberIDs = getGroupMemberIDs(groupID);
+  let memberAvatars = getGroupMemberAvatars(groupID);
+
+  let list = document.querySelector('.instance-parent');
+
+  list.innerHTML = '';
+
+  for (let i = 0; i < memberNames.length; i++) {
+      let listItem = document.createElement('li');
+      listItem.className = 'user-instance';
+
+      let userInfo = document.createElement('div');
+      userInfo.className = 'user-info';
+
+      let avatar = document.createElement('img');
+      avatar.className = 'user-avatar';
+      avatar.src = memberAvatars[i];
+      avatar.alt = '用户头像';
+
+      let name = document.createElement('div');
+      name.className = 'user-name';
+      name.textContent = memberNames[i];
+
+      name.value = memberIDs[i];
+
+      let deleteUser = document.createElement('div');
+      deleteUser.className = 'delete-user';
+
+      userInfo.appendChild(avatar);
+      userInfo.appendChild(name);
+      userInfo.appendChild(deleteUser);
+
+      listItem.appendChild(userInfo);
+
+      list.appendChild(listItem);
+  }
+}
+
+function updateTaskList(groupID, userID) {
+  let taskNames = getTaskNames(groupID, userID);
+  let taskIDs = getTaskIDs(groupID, userID);
+  let taskStatuses = getTaskStatuses(groupID, userID);
+  let taskDeadlines = getTaskDeadlines(groupID, userID);
+  let taskStartAts = getTaskStartAts(groupID, userID);
+
+  let taskList = document.querySelector('.task-list');
+
+  while (taskList.firstChild) {
+    taskList.removeChild(taskList.firstChild);
+  }
+
+  for (let i = 0; i < taskNames.length; i++) {
+    let li = document.createElement('li');
+    li.className = 'task';
+    li.id = i;
+
+    let div = document.createElement('div');
+    div.className = 'delete-task';
+    li.appendChild(div);
+
+    let p1 = document.createElement('p');
+    p1.className = 'item1';
+    p1.textContent = taskNames[i];
+    p1.value = taskIDs[i];  // Set taskID as value
+    li.appendChild(p1);
+
+    let p2 = document.createElement('p');
+    p2.className = 'item2';
+    p2.textContent = taskStartAts[i];
+    li.appendChild(p2);
+
+    let p3 = document.createElement('p');
+    p3.className = 'item3';
+    p3.textContent = taskDeadlines[i];
+    li.appendChild(p3);
+
+    let p4 = document.createElement('p');
+    p4.className = 'item4';
+    p4.textContent = taskStatuses[i];
+    li.appendChild(p4);
+
+    taskList.appendChild(li);
+  }
+}
+
+function initCurrentGroupID() {
+  let firstGroupID = getGroupIDs()[0];
+  return firstGroupID;
+}
+
 //export
-export { token, getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
-  getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, convertDateTimeFormat, formatDateTimeLocal};
+export { token, currentGroupID, getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
+  getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
+   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList};
 

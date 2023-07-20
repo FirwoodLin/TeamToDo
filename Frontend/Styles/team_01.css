@@ -763,3 +763,17 @@ line-height: normal;
   margin: 0 auto;
   padding: 50px 10px;
 }
+
+.quit-team {
+  position: absolute;
+  bottom: 25px;
+  right: 15px;
+
+  background-color: #DC143C;
+  color: white;
+    border: none;
+    border-radius: 5%;
+    width: auto;
+    height: 30px;
+
+}
