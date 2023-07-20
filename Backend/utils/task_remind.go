@@ -19,6 +19,7 @@ type TaskRemind struct {
 	// 时间相关
 	Deadline time.Time `json:"deadline"` // 任务截止日期
 	GroupID  uint      `json:"groupID"`  // 任务所属的团队的ID
+	StartAt  time.Time `json:"startAt"`  // 任务开始时间
 	// 提醒类型
 	NoticeTime time.Time `json:"noticeTime"` // 提醒时间
 }
@@ -65,7 +66,7 @@ func Scheduler() {
 		for _, task := range tasksStart {
 			var taskRemind TaskRemind
 			_ = copier.Copy(&taskRemind, &task)
-			taskRemind.NoticeTime = task.StartTime // 设置提醒时间为开始时间
+			taskRemind.NoticeTime = task.StartAt // 设置提醒时间为开始时间
 			ch <- taskRemind
 		}
 	}
