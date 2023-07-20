@@ -43,7 +43,10 @@ func UpdateApplyStatus(applyID uint, applyStatus model.ApplyStatus) error {
 // GetAllApplys 获取所有申请
 func GetAllApplys(groupID uint) (applys []model.GroupApply, err error) {
 	db := global.Sql.Model(&model.GroupApply{})
-	if err = db.Where("groupID = ?", groupID).Find(&applys).Error; err != nil {
+	if err = db.
+		Where("groupID = ?", groupID).
+		Find(&applys).
+		Error; err != nil {
 		global.Logger.Errorf("数据库错误，获取所有申请失败，错误信息为：%v", err)
 		return nil, err
 	}
