@@ -6,7 +6,6 @@ import (
 	"TeamToDo/model/request"
 	"TeamToDo/model/response"
 	"TeamToDo/utils"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -21,36 +20,29 @@ func CreateTaskHandler(c *gin.Context) {
 		tr request.TaskRequest
 		t  model.Task
 	)
+	// 解析参数
 	userID := c.GetUint("userID")
-	groupID, err := strconv.ParseUint(c.PostForm("groupID"), 10, 32)
-	if err != nil {
+	if err := c.ShouldBind(&tr); err != nil {
 		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 		return
 	}
-	if err := c.ShouldBind(&t); err != nil {
-		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
-		return
-	}
-	t.GroupID = uint(groupID)
-	t.OwnerID = userID
-	if utils.CheckUserInGroup(userID, t.GroupID) == model.RoleVisitor {
+	tr.OwnerID = userID
+	// 鉴权
+	if utils.CheckUserInGroup(userID, tr.GroupID) == model.RoleVisitor {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("你并不在该群组中"))
 		return
 	}
-
+	// 结构转换
 	if err := copier.Copy(&t, &tr); err != nil {
 		c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("结构转换错误"))
 		return
 	}
-
-	// 在这里看看copy的效果
-	log.Println(t)
-
+	// 创建任务
 	if err := database.TaskCreate(&t); err != nil {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("创建任务失败 "+err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(t))
 }
 
 // DELETE: "/api/tasks/:taskID"
