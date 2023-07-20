@@ -1,5 +1,6 @@
 package model
 
+// Remark 评论模型 - deprecated
 type Remark struct {
 	TimeModel
 	RemarkID  string `json:"remarkID" gorm:"primary_key" ` // 评论ID

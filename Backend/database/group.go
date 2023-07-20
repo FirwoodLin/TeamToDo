@@ -4,6 +4,7 @@ import (
 	"TeamToDo/global"
 	"TeamToDo/model"
 	"TeamToDo/model/request"
+	"gorm.io/gorm"
 
 	"github.com/jinzhu/copier"
 )
@@ -61,29 +62,44 @@ func FindGroupMembers(groupID uint) (userGroups []model.UserGroup, err error) {
 
 // AddGroupMember 添加群组成员 - 服务层调用
 func AddGroupMember(userID uint, groupID uint, role model.Role) error {
-	db := global.Sql
-	var userGroup model.UserGroup
-	userGroup.UserID = userID
-	userGroup.GroupID = groupID
-	userGroup.Role = role
-	if err := db.Create(&userGroup).Error; err != nil {
+	userGroup := model.UserGroup{
+		UserID:  userID,
+		GroupID: groupID,
+		Role:    role,
+	}
+	tx := global.Sql.Begin() // 由于涉及两个表的写操作，使用事务
+	if err := tx.Create(&userGroup).Error; err != nil {
 		// 处理错误
-		global.Logger.Infof("添加群组成员时,数据库错误\n")
+		global.Logger.Infof("添加群组成员,新建UserGroup记录时,数据库错误\n")
+		tx.Rollback()
 		return err
 	}
+	if err := tx.Model(&model.Group{}).
+		Where("groupID = ?", groupID).
+		Update("memberCount", gorm.Expr("memberCount + ?", 1)).
+		Error; err != nil {
+		// 处理错误
+		global.Logger.Infof("添加群组成员，更新 memberCount 时数据库错误\n")
+		tx.Rollback()
+		return err
+	}
+	tx.Commit()
 	return nil
 }
 
 // UpdateMemberRole 更新成员角色（不包括踢出）
 func UpdateMemberRole(userID uint, groupID uint, role model.Role) error {
 	db := global.Sql
+	// 查找 userGroup 记录
 	var userGroup model.UserGroup
-	if err := db.Where("userID = ? AND groupID = ?", userID, groupID).First(&userGroup).Error; err != nil {
+	if err := db.Where("userID = ? AND groupID = ?", userID, groupID).
+		First(&userGroup).Error; err != nil {
 		// 处理错误
 		global.Logger.Infof("更新成员状态时,数据库错误，查询不到记录\n")
 		return err
 	}
 	userGroup.Role = role
+	// 更新角色
 	if err := db.Save(&userGroup).Error; err != nil {
 		// 处理错误
 		global.Logger.Infof("更新成员状态时,数据库错误\n")
@@ -94,18 +110,35 @@ func UpdateMemberRole(userID uint, groupID uint, role model.Role) error {
 
 // DeleteGroupMember 删除群组成员 - 踢出成员/退出群组通用
 func DeleteGroupMember(userID uint, groupID uint) error {
-	db := global.Sql
+	tx := global.Sql.Begin()
+	// 查找记录
 	var userGroup model.UserGroup
-	if err := db.Where("userID = ? AND groupID = ?", userID, groupID).First(&userGroup).Error; err != nil {
+	if err := tx.Where("userID = ? AND groupID = ?", userID, groupID).
+		First(&userGroup).Error; err != nil {
 		// 处理错误
 		global.Logger.Infof("删除群组成员时,数据库错误，查询不到记录\n")
+		tx.Rollback()
 		return err
 	}
-	if err := db.Delete(&userGroup).Error; err != nil {
+	// 删除记录
+	if err := tx.Delete(&userGroup).Error; err != nil {
 		// 处理错误
 		global.Logger.Infof("删除群组成员时,数据库错误\n")
+		tx.Rollback()
 		return err
 	}
+	// 更新群组成员数量
+	if err := tx.Model(&model.Group{}).
+		Where("group_id = ?", groupID).
+		Update("memberCount", gorm.Expr("memberCount - ?", 1)).
+		Error; err != nil {
+		// 处理错误
+		global.Logger.Infof("删除群组成员时,更新 memberCount 时数据库错误\n")
+		tx.Rollback()
+		return err
+	}
+	// 完成事务，提交
+	tx.Commit()
 	return nil
 }
 
@@ -121,6 +154,30 @@ func QuitGroup(userID uint, groupID uint) error {
 	if err := db.Delete(&userGroup).Error; err != nil {
 		// 处理错误
 		global.Logger.Infof("退出群组时,数据库错误\n")
+		return err
+	}
+	return nil
+}
+
+// DeleteUserGroups 根据群组ID,删除所有UserGroup关系
+func DeleteUserGroups(groupID uint) error {
+	db := global.Sql
+	if err := db.Where("groupID = ?", groupID).
+		Delete(&model.UserGroup{}).Error; err != nil {
+		// 处理错误
+		global.Logger.Infof("删除群组时,数据库错误\n")
+		return err
+	}
+	return nil
+}
+
+// DeleteGroup 删除群组
+func DeleteGroup(groupID uint) error {
+	db := global.Sql
+	if err := db.Where("groupID = ?", groupID).
+		Delete(&model.Group{}).Error; err != nil {
+		// 处理错误
+		global.Logger.Infof("删除群组时,数据库错误\n")
 		return err
 	}
 	return nil

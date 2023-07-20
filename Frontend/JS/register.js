@@ -47,7 +47,6 @@ function register () {
         })
         .catch(error => {
             console.error(error);
-            alert('oops~出现错误！请稍后重试！');
         });
     }
 

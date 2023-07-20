@@ -1,5 +1,5 @@
 //global variable
-var token;;
+var token;
 
 
 //global function

@@ -11,6 +11,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 )
 
 // POST: "/api/groups/join"
@@ -94,11 +95,14 @@ func QuitGroupHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 		return
 	}
-	// 退出群聊的前提是用户在群聊中
-	// 这里没有检查用户是不是群主，如果用户是群主会涉及群主转让，直接删除群聊等。。。
-	// 之后一定要加上检查是不是群主的函数
-	if utils.CheckUserInGroup(userID, uint(groupID)) == model.RoleVisitor {
+	// 检查用户在群组中的权限
+	role := utils.CheckUserInGroup(userID, uint(groupID))
+
+	if role == model.RoleVisitor {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("你并不在群聊中"))
+		return
+	} else if role == model.RoleOwner {
+		DisbandGroup(c, uint(groupID))
 		return
 	}
 	if err := database.QuitGroup(userID, uint(groupID)); err != nil {
@@ -120,7 +124,11 @@ func GetGroupsHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(map[string]interface{}{"groups": *resp}))
+	groups := make([]model.Group, 0)
+	for _, ug := range *resp {
+		groups = append(groups, ug.Group)
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"groups": groups}))
 }
 
 // GET: "/api/groups/:groupID/members"
@@ -137,5 +145,26 @@ func GetAllUsersInGroupHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("群组不存在"))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(map[string]interface{}{"members": resp}))
+	users := make([]response.UserGroupResponse, 0)
+	for _, ug := range resp {
+		var ur response.UserGroupResponse
+		if err := copier.Copy(&ur, &ug); err != nil {
+			c.JSON(http.StatusBadRequest, response.MakeFailedResponse("结构拷贝错误"))
+			return
+		}
+		users = append(users, ur)
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"members": users}))
+}
+
+// GET: "/api/groups/:groupID/role"
+// 查询自己在当前群组中的角色
+func GetSelfRoleInGroupHandler(c *gin.Context) {
+	userID := c.GetUint("userID")
+	groupID, err := strconv.ParseUint(c.Param("groupID"), 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
+		return
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"role": utils.CheckUserInGroup(userID, uint(groupID))}))
 }

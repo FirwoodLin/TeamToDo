@@ -32,3 +32,10 @@ func UpdateUserRoleHandler(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))
 }
+
+// 不是API，群主退出就直接解散
+func DisbandGroup(c *gin.Context, groupID uint) {
+	database.DeleteUserGroups(groupID)
+	database.DeleteGroup(groupID)
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))
+}
