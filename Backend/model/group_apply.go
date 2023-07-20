@@ -11,12 +11,17 @@ const (
 // GroupApply 加群申请(需要管理员审核)
 type GroupApply struct {
 	TimeModel
-	GroupApplyID uint `json:"groupApplyID" gorm:"column:groupApply;primaryKey"`
-	GroupID      uint `json:"groupID" gorm:"column:groupID"`
-	UserID       uint `json:"userID" gorm:"column:userID"`
-	//UserName     string      `json:"userName" gorm:"column:userName"`
-	Status ApplyStatus `json:"status" gorm:"column:status"`
-	User   User        `json:"user" gorm:"foreignKey:userID"`
+	GroupApplyID uint        `json:"groupApplyID" gorm:"column:groupApply;primaryKey"`
+	Status       ApplyStatus `json:"status" gorm:"column:status"`
+	//进行关联
+	UserID  uint  `json:"userID" gorm:"column:userID"`
+	User    User  `json:"user" gorm:"-"`
+	GroupID uint  `json:"groupID" gorm:"column:groupID"`
+	Group   Group `json:"group" gorm:"-"`
+	//UserID  uint  `json:"userID" gorm:"column:userID"`
+	//User    User  `json:"user" gorm:"foreignKey:userID"`
+	//GroupID uint  `json:"groupID" gorm:"column:groupID"`
+	//Group   Group `json:"group" gorm:"foreignKey:groupID"`
 }
 
 type GroupJoinCode struct {

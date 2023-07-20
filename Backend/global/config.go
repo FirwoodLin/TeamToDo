@@ -52,6 +52,7 @@ type Email struct {
 	Secret   string `mapstructure:"Secret"`
 	Host     string `mapstructure:"Host"`
 	Post     int    `mapstructure:"Port"`
+	Logo     string `mapstructure:"Logo"`
 }
 type Config struct {
 	MySQL  MySQLConfig   `mapstructure:"Mysql"`
