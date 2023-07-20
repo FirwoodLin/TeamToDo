@@ -109,12 +109,18 @@ func GetInviteCodeHandler(c *gin.Context) {
 // DELETE: "/api/groups/:groupID/members/:targetUserID"
 // 移除群成员
 func RemoveUserFromHandler(c *gin.Context) {
+	userID := c.GetUint("userID")
 	groupID := c.GetUint("groupID")
 	targetUserID, err := strconv.ParseUint(c.Param("targetUserID"), 10, 32)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 		return
 	}
+	if utils.CheckUserInGroup(userID, groupID) <= utils.CheckUserInGroup(uint(targetUserID), groupID) {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("权限不足"))
+		return
+	}
+
 	if err := database.DeleteGroupMember(uint(targetUserID), groupID); err != nil {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("无法移出群组 "+err.Error()))
 		return

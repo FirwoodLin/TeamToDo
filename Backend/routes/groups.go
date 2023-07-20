@@ -42,6 +42,8 @@ func registerBasicGroupRoutes(r *gin.RouterGroup) {
 	// 查询群组所有成员
 	r.GET("/:groupID/members", controller.GetAllUsersInGroupHandler)
 
+	// 查询自己在当前群组的权限
+	r.GET("/:groupID/role", controller.GetSelfRoleInGroupHandler)
 }
 
 func registerAdvancedGroupRoutes(r *gin.RouterGroup) {
