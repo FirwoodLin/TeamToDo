@@ -34,7 +34,7 @@ type Task struct {
 	Group   Group `json:"group" gorm:"foreignKey:groupID"` // 任务所属的团队
 }
 
-// UserTask 用户-任务关系表；记录用户的任务完成信息
+// UserTask 用户-任务关系表；记录用户的任务完成信息 - deprecated
 type UserTask struct {
 	TimeModel
 	// 联合主键
