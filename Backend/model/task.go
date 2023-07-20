@@ -22,6 +22,7 @@ type Task struct {
 	Description *string    `json:"description,omitempty"`                  // 任务描述
 	TaskStatus  TaskStatus `json:"taskStatus"`                             // 任务状态
 	// 时间相关
+	StartTime      time.Time `json:"startTime"`      // 任务开始日期
 	Deadline       time.Time `json:"deadline"`       // 任务截止日期
 	RemindBefore   int       `json:"remindBefore"`   // 结束前x分钟提醒
 	RemindWhen     time.Time `json:"remindWhen"`     // 特定时间提醒

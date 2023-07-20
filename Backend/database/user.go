@@ -163,3 +163,15 @@ func DeleteUser(userID uint) (err error) {
 
 	return nil
 }
+
+// UserQueryOneAllInfo 查询用户信息 -- 传入用户 ID;返回所有信息
+func UserQueryOneAllInfo(userID uint) (*model.User, error) {
+	var user model.User
+	db := global.Sql.Model(&model.User{})
+	user.UserID = userID
+	if err := db.Find(&user).Error; err != nil {
+		global.Logger.Infof("查询用户信息,查找不到用户,id:%v", userID)
+		return nil, err
+	}
+	return &user, nil
+}
