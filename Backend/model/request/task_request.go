@@ -17,3 +17,9 @@ type TaskRequest struct {
 	RemindWhen     time.Time `json:"remindWhen"`     // 特定时间提醒
 	RemindWhenDone bool      `json:"remindWhenDone"` // 成员完成时提醒
 }
+
+type TaskQueryRequest struct {
+	UserID  uint   `json:"userID"`
+	GroupID []uint `json:"groupID"`
+	Word    string `json:"word"`
+}
