@@ -1,0 +1,75 @@
+.box1 {
+    width: 600px;
+    height: 400px;
+    flex-shrink: 0;
+    border-radius: 100px 12px;
+    background: #FFF;
+    box-shadow: 0px 4px 237px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.quit-btn1 {
+    flex: 1;
+    flex-shrink: 0;
+    fill: #000;
+    text-align: end;
+    margin-right: 25px;
+    margin-top: 25px;
+}
+
+.title1 {
+    flex: 2;
+    flex-shrink: 0;
+    color: var(--2866-df, #2866DF);
+    font-family: Inter;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    text-align: center;
+}
+
+.input1 {
+    flex: 2;
+    flex-shrink: 0;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+#search-email1 {
+    height: 48px;
+    width: 300px;
+    border-radius: 16px;
+    border: 1px solid #000;
+    background: #FFF;
+    padding-left: 45px;
+    font-size: 20px;
+}
+
+.search-button1 {
+    flex: 4;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.search-button1 button {
+    width: 300px;
+    height: 48px;
+    background: #2866DF;
+    border: none;
+    border-radius: 16px;
+    font-size: 20px;
+    margin-top: 40px;
+    color: rgb(233, 240, 246);
+}
+
+.search-button1 button:active {
+    background: #5682bf;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
