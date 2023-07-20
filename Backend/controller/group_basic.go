@@ -95,11 +95,14 @@ func QuitGroupHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 		return
 	}
-	// 退出群聊的前提是用户在群聊中
-	// 这里没有检查用户是不是群主，如果用户是群主会涉及群主转让，直接删除群聊等。。。
-	// 之后一定要加上检查是不是群主的函数
-	if utils.CheckUserInGroup(userID, uint(groupID)) == model.RoleVisitor {
+	// 检查用户在群组中的权限
+	role := utils.CheckUserInGroup(userID, uint(groupID))
+
+	if role == model.RoleVisitor {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("你并不在群聊中"))
+		return
+	} else if role == model.RoleOwner {
+		DisbandGroup(c, uint(groupID))
 		return
 	}
 	if err := database.QuitGroup(userID, uint(groupID)); err != nil {

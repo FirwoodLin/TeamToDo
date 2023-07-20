@@ -4,8 +4,9 @@ import (
 	"TeamToDo/database"
 	"TeamToDo/global"
 	"TeamToDo/model"
-	"github.com/jinzhu/copier"
+	"TeamToDo/utils"
 	"time"
+	"github.com/jinzhu/copier"
 )
 
 var isFirst bool = true
@@ -95,14 +96,12 @@ func remindTask(task TaskRemind) {
 			global.Logger.Errorf("提醒模块-获取参与者邮箱出错：%v", err)
 			return
 		}
-		// 发送邮件 TODO：完成SendMail 函数
-		err = SendEmail(user)
+		// 发送邮件
+		err = utils.PostEmail(user.Email, utils.GenerateRemindMail(task.TaskName, *task.Description, task.StartAt.String(), task.Deadline.String()))
 		if err != nil {
 			global.Logger.Errorf("提醒模块-发送邮件出错：%v", err)
 			return
 		}
 	}
 }
-func SendEmail(user *model.User) error {
-	return nil
-}
+

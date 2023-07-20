@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>任务状态更新提醒</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      /* background-image: url({{.Background}});
+      background-repeat: no-repeat */
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background-color: rgba(249, 249, 249, 0.8);
+      padding: 20px;
+      box-sizing: border-box;
+      border-radius: 10px;
+      backdrop-filter: blur(10px);
+    }
+    .logo {
+      display: block;
+      width: 150px;
+      margin: 20px auto;
+    }
+    .content {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1, h2 {
+      margin-top: 0;
+    }
+    .task {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .task-title {
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .task-desc {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .task-time {
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    .cta {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #1a73e8;
+      color: #fff;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+    .footer {
+      font-size: 12px;
+      text-align: center;
+      color: #777;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="{{.Logo}}" alt="TeamToDo Logo" class="logo">
+    <div class="content">
+      <h1>任务状态更新提醒</h1>
+      <p>您好，您的任务状态已经更新。请登录 TeamToDo 系统查看详情。</p>
+    </div>
+    <div class="task">
+      <h2 class="task-title">{{.TaskName}}</h2>
+      <p class="task-desc">{{.TaskDesc}}</p>
+      <p class="task-time">任务开始时间：{{.StartTime}}</p>
+      <p class="task-time">任务结束时间：{{.DeadLine}}</p>
+      <a href="{{.Link}}" class="cta">登录 TeamToDo</a>
+    </div>
+    <p class="footer">&copy; 2023 TeamToDo 保留所有权利</p>
+  </div>
+</body>
+</html>
