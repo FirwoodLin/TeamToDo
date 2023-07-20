@@ -90,7 +90,7 @@ func UserSignIn(userReq *request.UserSignInRequest) (userResponse *response.User
 	userResponse = &response.UserResponse{UserID: user.UserID}
 	global.Logger.Infof("登陆成功,id：%v\n", userResponse.UserID)
 	// 检查是否激活
-	if user.IsVerified == false {
+	if !user.IsVerified {
 		global.Logger.Infof("用户未激活,id：%v\n", userResponse.UserID)
 		return nil, errors.New("用户未激活")
 	}
