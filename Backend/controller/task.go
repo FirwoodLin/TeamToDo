@@ -17,8 +17,9 @@ import (
 // 新建任务
 func CreateTaskHandler(c *gin.Context) {
 	var (
-		tr request.TaskRequest
-		t  model.Task
+		tr   request.TaskRequest
+		t    model.Task
+		resp response.TaskResponse
 	)
 	// 解析参数
 	userID := c.GetUint("userID")
@@ -42,7 +43,11 @@ func CreateTaskHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("创建任务失败 "+err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(t))
+	if err := copier.Copy(&resp, &t); err != nil {
+		c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("结构转换错误"))
+		return
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"task": resp}))
 }
 
 // DELETE: "/api/tasks/:taskID"
@@ -65,14 +70,20 @@ func RemoveTaskHandler(c *gin.Context) {
 		c.Abort()
 		return
 	}
-	// if err := database.
-	// 删除任务，未完待续
+	if err := database.DeleteTask(uint(taskID)); err != nil {
+		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("任务删除失败 "+err.Error()))
+		return
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))
 }
 
 // PUT: "/api/tasks/:taskID"
 // 修改任务
 func UpdateTaskHandler(c *gin.Context) {
-	var tr request.TaskRequest
+	var (
+		tr   request.TaskRequest
+		resp response.TaskResponse
+	)
 	taskID, err := strconv.ParseUint(c.Param("taskID"), 10, 32)
 	userID := c.GetUint("userID")
 
@@ -104,12 +115,29 @@ func UpdateTaskHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("更新失败 "+err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(map[string]interface{}{"task": t}))
+	if err := copier.Copy(&resp, &t); err != nil {
+		c.JSON(http.StatusInternalServerError, response.MakeFailedResponse("结构转换错误"))
+		return
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"task": resp}))
 }
 
 // GET: "/api/tasks"
 // 查询任务
-// func GetTasksHandler(c *gin.Context) {
-// 	userID := c.GetUint("userID")
-// 	database.QueryTaskByTaskID()
-// }
+func GetTasksHandler(c *gin.Context) {
+	var tr request.TaskQueryRequest
+	userID := c.GetUint("userID")
+	groupsID := make([]uint, 0)
+	if err := c.ShouldBind(&tr); err != nil {
+		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
+		return
+	}
+	for _, g := range tr.GroupID {
+		if utils.CheckUserInGroup(userID, g) == model.RoleVisitor {
+			continue
+		}
+		groupsID = append(groupsID, g)
+	}
+	tr.GroupID = groupsID
+	// 先放在这里
+}

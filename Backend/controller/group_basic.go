@@ -11,6 +11,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 )
 
 // POST: "/api/groups/join"
@@ -120,7 +121,11 @@ func GetGroupsHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(map[string]interface{}{"groups": *resp}))
+	groups := make([]model.Group, 0)
+	for _, ug := range *resp {
+		groups = append(groups, ug.Group)
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"groups": groups}))
 }
 
 // GET: "/api/groups/:groupID/members"
@@ -137,5 +142,26 @@ func GetAllUsersInGroupHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("群组不存在"))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(map[string]interface{}{"members": resp}))
+	users := make([]response.UserGroupResponse, 0)
+	for _, ug := range resp {
+		var ur response.UserGroupResponse
+		if err := copier.Copy(&ur, &ug); err != nil {
+			c.JSON(http.StatusBadRequest, response.MakeFailedResponse("结构拷贝错误"))
+			return
+		}
+		users = append(users, ur)
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"members": users}))
+}
+
+// GET: "/api/groups/:groupID/role"
+// 查询自己在当前群组中的角色
+func GetSelfRoleInGroupHandler(c *gin.Context) {
+	userID := c.GetUint("userID")
+	groupID, err := strconv.ParseUint(c.Param("groupID"), 10, 32)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
+		return
+	}
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"role": utils.CheckUserInGroup(userID, uint(groupID))}))
 }

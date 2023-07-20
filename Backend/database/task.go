@@ -31,6 +31,17 @@ func TaskUpdate(task *model.Task) error {
 	return nil
 }
 
+// DeleteTask 删除任务
+func DeleteTask(taskID uint) error {
+	err := global.Sql.Where("taskID = ?", taskID).Delete(&model.Task{}).Error
+	if err != nil {
+		global.Logger.Infof("删除任务失败,taskID: %v,err:%v", taskID, err.Error())
+		return err
+	}
+	global.Logger.Debug("删除任务: ", taskID)
+	return nil
+}
+
 // QueryTasksByGroupID 根据群组 ID 查询任务
 func QueryTasksByGroupID(groupID uint) (tasks []model.Task, err error) {
 	err = global.Sql.Where("groupID = ?", groupID).Find(&tasks).Error
