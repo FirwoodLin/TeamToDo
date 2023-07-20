@@ -5,6 +5,7 @@ var currentUserID, currentUserName, currentUserEmail, currentUserAvatar;
 var UserID;
 
 
+
 //global function
 
 // 查询所有群组ID
@@ -341,6 +342,21 @@ function formatDateTimeLocal(inputDateTimeLocal) {
   return outputDateTime;
 }
 
+function formatDateTimeLocalToClient(dateTimeStr) {
+  var date = new Date(dateTimeStr);
+  
+  var day = ("0" + date.getDate()).slice(-2);
+  var month = ("0" + (date.getMonth() + 1)).slice(-2);
+  var year = date.getFullYear();
+  
+  var hours = ("0" + date.getHours()).slice(-2);
+  var minutes = ("0" + date.getMinutes()).slice(-2);
+  
+  var formattedDate = hours + ":" + minutes + ", " + day + "/" + month + "/" + year;
+  
+  return formattedDate;
+}
+
 function updateSelectOptions() {
   let groupNames = getGroupNames();
   let groupIDs = getGroupIDs();
@@ -415,7 +431,6 @@ function updateTaskList(groupID, userID) {
   for (let i = 0; i < taskNames.length; i++) {
     let li = document.createElement('li');
     li.className = 'task';
-    li.id = i;
 
     let div = document.createElement('div');
     div.className = 'delete-task';
@@ -439,7 +454,8 @@ function updateTaskList(groupID, userID) {
 
     let p4 = document.createElement('p');
     p4.className = 'item4';
-    p4.textContent = taskStatuses[i];
+    p4.textContent = taskStatuses[i]? '已完成' : '未完成';
+    p4.value = taskStatuses[i];  // Set taskStatus as value
     li.appendChild(p4);
 
     taskList.appendChild(li);
@@ -477,8 +493,7 @@ async function getUserRole(groupID) {
 }
 
 //export
-export {
-  token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar,UserID,getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
+export {token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar,UserID,getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
   getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
-   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole};
+   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient};
 
