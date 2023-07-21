@@ -10,29 +10,29 @@ var UserID;
 
 // 查询所有群组ID
 function getGroupIDs() {
-//     fetch('http://localhost:8080/api/groups', {
-//       method: 'GET',
-//       headers: {
-//         'Authorization': 'Bearer ' + token,
-//       },
-//     })
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error("HTTP error " + response.status);
-//       }
-//       return response.json();
-//     })
-//     .then(json => {
-//       if (json.success) {
-//         let groupIDs = json.data.groups.map(group => group.groupID);
-//         return groupIDs;
-//       } else {
-//         throw new Error(json.hint); 
-//       }
-//     })
-//     .catch(error => {
-//       console.error('An error occurred:', error);
-//     });
+    fetch('http://localhost:8080/api/groups', {
+      method: 'GET',
+      headers: {
+        'Authorization': 'Bearer ' + token,
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP error " + response.status);
+      }
+      return response.json();
+    })
+    .then(json => {
+      if (json.success) {
+        let groupIDs = json.data.groups.map(group => group.groupID);
+        return groupIDs;
+      } else {
+        throw new Error(json.hint); 
+      }
+    })
+    .catch(error => {
+      console.error('An error occurred:', error);
+    });
 };
 
 // 查询所有群组名
@@ -317,6 +317,20 @@ function convertDateTimeFormat(inputDateTime) {
   return outputDateTime;
 }
 
+function convertClientTimeToDateLocal(dateTimeStr) {
+  var timeAndDate = dateTimeStr.split(', ');
+  var time = timeAndDate[0];
+  var date = timeAndDate[1].split('/');
+  
+  var day = date[0];
+  var month = date[1];
+  var year = date[2];
+  
+  var formattedDateTime = year + "-" + month + "-" + day + "T" + time;
+  
+  return formattedDateTime;
+}
+
 function formatDateTimeLocal(inputDateTimeLocal) {
   // Create a Date object from the input string
   var date = new Date(inputDateTimeLocal);
@@ -372,8 +386,6 @@ function updateSelectOptions() {
   }
 }
 
-
-
 function updateGroupMembersList(groupID) {
   // 调用相应的函数获取新的成员名称，ID 和头像
   let memberNames = getGroupMemberNames(groupID);
@@ -381,7 +393,7 @@ function updateGroupMembersList(groupID) {
   let memberAvatars = getGroupMemberAvatars(groupID);
 
   let list = document.querySelector('.instance-parent');
-
+  changeTaskListHeader(currentUserName + '的任务');
   list.innerHTML = '';
 
   for (let i = 0; i < memberNames.length; i++) {
@@ -421,6 +433,7 @@ function updateTaskList(groupID, userID) {
   let taskStatuses = getTaskStatuses(groupID, userID);
   let taskDeadlines = getTaskDeadlines(groupID, userID);
   let taskStartAts = getTaskStartAts(groupID, userID);
+  let taskDescriptions = getTaskDescriptions(groupID, userID);
 
   let taskList = document.querySelector('.task-list');
 
@@ -444,19 +457,27 @@ function updateTaskList(groupID, userID) {
 
     let p2 = document.createElement('p');
     p2.className = 'item2';
+    taskStartAts[i] = convertDateTimeFormat(taskStartAts[i]);
     p2.textContent = taskStartAts[i];
     li.appendChild(p2);
 
     let p3 = document.createElement('p');
     p3.className = 'item3';
+    taskDeadlines[i] = convertDateTimeFormat(taskDeadlines[i]);
     p3.textContent = taskDeadlines[i];
     li.appendChild(p3);
 
     let p4 = document.createElement('p');
     p4.className = 'item4';
     p4.textContent = taskStatuses[i]? '已完成' : '未完成';
-    p4.value = taskStatuses[i];  // Set taskStatus as value
+    p4.value = taskStatuses[i];
+    p4.dataset.state = `${taskStatuses[i]}`; 
     li.appendChild(p4);
+
+    let p5 = document.createElement('p');
+    p5.className = 'item5';
+    p5.value = taskDescriptions[i];  
+    li.appendChild(p5);
 
     taskList.appendChild(li);
   }
@@ -492,8 +513,13 @@ async function getUserRole(groupID) {
   }
 }
 
+  function changeTaskListHeader(userName) {
+    let taskListHeader = document.querySelector('.username-header');
+    taskListHeader.textContent = userName;
+  }
+
 //export
 export {token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar,UserID,getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
   getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
-   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient};
+   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient, convertClientTimeToDateLocal,changeTaskListHeader};
 

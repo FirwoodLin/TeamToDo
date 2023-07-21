@@ -31,7 +31,7 @@ function login() {
                     localStorage.setItem('userEmail', user.userEmail);
                     localStorage.setItem('userAvatar', user.userAvatar);
 
-                    window.location.href = "index.html";
+                    window.location.href = "team_01.html";
                 }
                 else {
                     alert(response.hint);

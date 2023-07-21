@@ -45,7 +45,8 @@ function register() {
                     localStorage.setItem('userName', message.data.userName);
                     localStorage.setItem('userAvatar', message.data.userAvatar);
                     alert('激活链接已发送~ 请注意查看邮箱！');
-                    window.location.href = "temp_activate.html";
+                    alert('请重新登录账号！');
+                    window.location.href = "login.html";
                 }
                 else {
                     alert('message.hint');
