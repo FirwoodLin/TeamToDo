@@ -1,6 +1,7 @@
-export {token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar,UserID,getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
+import {token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar,UserID,getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
   getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
-   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient, convertClientTimeToDateLocal};
+  formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient, convertClientTimeToDateLocal
+} from "./global.js";
 
 (function() {
     const confirmBtn = document.querySelector('.select-team input');
@@ -63,6 +64,7 @@ var generateCodeModal = document.querySelector('.generate-code-box')
 // 默认隐藏模态窗口
 document.addEventListener('DOMContentLoaded', hideAll);
 function hideAll() {
+  console.log('hideAll 函数被调用');
   generateCodeModal.style.display = 'none';
 };
 
