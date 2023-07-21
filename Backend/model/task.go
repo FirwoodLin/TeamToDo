@@ -29,9 +29,9 @@ type Task struct {
 	RemindWhenDone bool      `json:"remindWhenDone" gorm:"column:remindWhenDone"` // 成员完成时提醒
 	// 所有者相关
 	OwnerID uint  `json:"ownerID" gorm:"column:ownerID"` // 任务所有者的ID
-	Owner   User  `json:"owner" gorm:"foreignKey:userID"`
-	GroupID uint  `json:"groupID" gorm:"column:groupID"`   // 任务所属的团队的ID
-	Group   Group `json:"group" gorm:"foreignKey:groupID"` // 任务所属的团队
+	Owner   User  `json:"owner"`
+	GroupID uint  `json:"groupID" gorm:"column:groupID"` // 任务所属的团队的ID
+	Group   Group `json:"group" `                        // 任务所属的团队
 }
 
 // UserTask 用户-任务关系表；记录用户的任务完成信息 - deprecated

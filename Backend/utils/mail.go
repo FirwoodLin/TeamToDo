@@ -21,6 +21,7 @@ func GenerateActivateMail(uuid string) string {
 	items["Link"] = link
 	items["Logo"] = global.Server.Mail.Logo
 
+	global.Logger.Infof("正在渲染激活邮件，link：%v\n", link)
 	return generateMail("./template/activate.tmpl", items, link)
 }
 
@@ -40,7 +41,8 @@ func GenerateRemindMail(taskName, taskDesc, startTime, DeadLine string) string {
 
 // 生成一般邮件
 func generateMail(filename string, data map[string]interface{}, defaultRet string) string {
-	file, err := os.ReadFile("./template/remind.tmpl")
+	//file, err := os.ReadFile("./template/remind.tmpl")
+	file, err := os.ReadFile(filename)
 	//fmt.Println(file)
 	// 将file 转换为string
 	str := string(file)
@@ -62,7 +64,7 @@ func generateMail(filename string, data map[string]interface{}, defaultRet strin
 
 // PostEmail 发送邮件
 func PostEmail(email, text string) error {
-	global.Logger.Debugf("PostEmail ready to 发送邮件给：%s;content:%v", email, text)
+	global.Logger.Debugf("PostEmail ready to 发送邮件给：%s;", email)
 	m := gomail.NewMessage()
 
 	m.SetHeader("From", global.Server.Mail.Username)

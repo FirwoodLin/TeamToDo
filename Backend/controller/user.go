@@ -52,7 +52,7 @@ func UserVerifyHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("激活账号失败"))
 		return
 	}
-	c.JSON(http.StatusOK, response.MakeSucceedResponse(""))
+	c.JSON(http.StatusOK, response.MakeSucceedResponse(gin.H{"msg": "请前往官网首页，重新登录"}))
 }
 
 // 用户登录处理
