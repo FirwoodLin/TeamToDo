@@ -4,7 +4,9 @@ package request
 type UserRegisterRequest struct {
 	Email string `json:"email" validate:"required,email" `
 	//UserName string `json:"userName" validate:"required,min=3,max=20" `
-	Password string `json:"password" validate:"required,min=8,max=20" `
+	Password string `json:"password" validate:"required" `
+	//Password string `json:"password" validate:"required,min=8,max=20" `
+
 }
 
 // UserSignInRequest 登陆时的请求

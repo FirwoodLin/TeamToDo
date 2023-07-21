@@ -58,6 +58,11 @@ type ServerAddress struct {
 	Host string `mapstructure:"Host"`
 	Port string `mapstructure:"Port"`
 }
+type TMPL struct {
+	ActivateTmpl string `mapstructure:"Activate"`
+	RemindTmpl   string `mapstructure:"Remind"`
+}
+
 type Config struct {
 	MySQL  MySQLConfig   `mapstructure:"Mysql"`
 	Redis  RedisConfig   `mapstructure:"Redis"`
@@ -68,6 +73,7 @@ type Config struct {
 	JWT    JWT           `mapstructure:"JWT"`
 	Mail   Email         `mapstructure:"mail"`
 	Server ServerAddress `mapstructure:"server"`
+	Tmpl   TMPL          `mapstructure:"Template"`
 }
 
 //var Server Config
