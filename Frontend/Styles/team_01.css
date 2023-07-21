@@ -777,10 +777,23 @@ line-height: normal;
     height: 30px;
 
 }
+.create-code-btn {
+  position: absolute;
+  bottom: 25px;
+  left: 15px;
 
+  background-color: #DC143C;
+  color: white;
+  border: none;
+  border-radius: 5%;
+  width: auto;
+  height: 30px;
+
+}
 #selected {
   background-color: rgba(195, 203, 216, 0.42);
 }
+
 
 button[data-state="0"] {
   color: #7187DC;
@@ -789,4 +802,12 @@ button[data-state="0"] {
 button[data-state="1"] {
   color: #f2f2f2;
   background-color: aquamarine;
-}
+
+  
+}/* 模态窗口样式 */
+.generate-code-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;

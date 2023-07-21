@@ -1,6 +1,6 @@
-import { token,currentGroupID, getUserRole  } from "./global";
+import { token,currentGroupID, getUserRole  } from "./global.js";
 
-var quitGroupButton = document.querySelector('......');
+var quitGroupButton = document.querySelector('.quit-team');
 quitGroupButton.addEventListener('click',quitGroup);
 
 async function quitGroup() {

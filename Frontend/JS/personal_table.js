@@ -20,6 +20,16 @@ function showInformation() {
 }
 document.addEventListener('DOMContentLoaded',showInformation);
 
+
+// 个人信息修改
+function updateInformation() {
+    var userNameElement = document.getElementById('user-name');
+    var userEmailElement = document.getElementById('user-email');
+
+    
+
+}
+
 // 默认隐藏
 document.addEventListener('DOMContentLoaded', hideAll);
 function hideAll() {
