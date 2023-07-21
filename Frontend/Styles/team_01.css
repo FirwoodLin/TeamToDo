@@ -812,3 +812,12 @@ button[data-state="1"] {
     transform: translate(-50%, -50%);
     display: none;
   }
+
+
+  /* 个人信息窗口样式 */
+  .personal-box {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 84px;
+  }
