@@ -56,3 +56,23 @@ import {token, currentGroupID,currentUserID, UserID, getGroupIDs, getGroupNames,
 
 
 })();
+
+
+var generateCodeModal = document.querySelector('.generate-code-box')
+
+// 默认隐藏模态窗口
+document.addEventListener('DOMContentLoaded', hideAll);
+function hideAll() {
+  generateCodeModal.style.display = 'none';
+};
+
+var generateCodeBtn = document.querySelector('.create-code-btn')
+// 点击按钮显示模态窗口
+function showGenerateCodeModal() {
+  generateCodeModal.style.display = 'block';
+}
+generateCodeBtn.addEventListener('click', showGenerateCodeModal);
+
+/* 退出模态窗口 */
+var quitbtn = document.querySelector('.quit-btn');
+quitbtn.addEventListener('click', hideAll);

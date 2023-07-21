@@ -777,7 +777,28 @@ line-height: normal;
     height: 30px;
 
 }
+.create-code-btn {
+  position: absolute;
+  bottom: 25px;
+  left: 15px;
 
+  background-color: #DC143C;
+  color: white;
+  border: none;
+  border-radius: 5%;
+  width: auto;
+  height: 30px;
+
+}
 #selected {
-  backgroud-color: rgba(195, 203, 216, 0.42);
+  background-color: rgba(195, 203, 216, 0.42);
+}
+
+/* 模态窗口样式 */
+.generate-code-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
 }
