@@ -675,7 +675,7 @@ background: #FFF;
 margin-right: 50%;
 margin-bottom: 40px;
 
-    color: #7187DC;
+
 font-family: Inter;
 font-size: 20px;
 font-style: normal;
@@ -794,11 +794,20 @@ line-height: normal;
   background-color: rgba(195, 203, 216, 0.42);
 }
 
-/* 模态窗口样式 */
+
+button[data-state="0"] {
+  color: #7187DC;
+}
+
+button[data-state="1"] {
+  color: #f2f2f2;
+  background-color: aquamarine;
+
+  
+}/* 模态窗口样式 */
 .generate-code-box {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: none;
-}
