@@ -22,7 +22,7 @@ func UpdateUserRoleHandler(c *gin.Context) {
 	}
 	targetUserID, err := strconv.ParseUint(c.Param("targetUserID"), 10, 32)
 	targetUserRole, err2 := strconv.ParseInt(c.PostForm("role"), 10, 64)
-	if err != nil || err2 != nil || (targetUserRole != int64(model.RoleMember) && targetUserRole != int64(model.RoleAdmin)) {
+	if err != nil || err2 != nil || targetUserRole != int64(model.RoleVisitor) {
 		c.JSON(http.StatusBadRequest, response.InvalidInfoError)
 		return
 	}

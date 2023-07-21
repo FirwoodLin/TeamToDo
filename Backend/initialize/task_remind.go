@@ -12,8 +12,8 @@ import (
 var isFirst bool = true
 
 const (
-	interval = 10 * time.Second // 每隔 interval 时间执行一次
-	before   = 10 * time.Second // 任务结束前多久提醒
+	interval = 1000 * time.Second // 每隔 interval 时间执行一次
+	before   = 10 * time.Second   // 任务结束前多久提醒
 )
 
 type TaskRemind struct {
@@ -86,6 +86,7 @@ func Scheduler() {
 func formatTime(durationToAdd time.Duration) string {
 	return time.Now().Add(durationToAdd).Add(-8 * time.Hour).Format("2006-01-02 15:04:05")
 }
+
 func remindTask(task TaskRemind) {
 	// 设置发件时间（定时器）
 	//loc, _ := time.LoadLocation("Asia/Shanghai")
