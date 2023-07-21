@@ -67,7 +67,6 @@ func RemoveTaskHandler(c *gin.Context) {
 	}
 	if t.OwnerID != userID && utils.CheckUserInGroup(userID, t.GroupID) <= model.RoleMember {
 		c.JSON(http.StatusUnauthorized, response.MakeFailedResponse("没有删除这个任务的权限"))
-		c.Abort()
 		return
 	}
 	if err := database.DeleteTask(uint(taskID)); err != nil {
@@ -103,7 +102,6 @@ func UpdateTaskHandler(c *gin.Context) {
 	}
 	if t.OwnerID != userID && utils.CheckUserInGroup(userID, t.GroupID) <= model.RoleMember {
 		c.JSON(http.StatusUnauthorized, response.MakeFailedResponse("没有修改这个任务的权限"))
-		c.Abort()
 		return
 	}
 

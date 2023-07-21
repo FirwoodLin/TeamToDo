@@ -20,7 +20,8 @@ func GetApplysHandler(c *gin.Context) {
 	// 获取所有的申请
 	resp, err := database.GetAllApplys(groupID)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, response.MakeFailedResponse("群组不存在"))
+		response.MakeFailedResponse2(c, http.StatusBadRequest, "群组不存在")
+		// c.JSON(http.StatusBadRequest, response.MakeFailedResponse("群组不存在"))
 		return
 	}
 	c.JSON(http.StatusOK, response.MakeSucceedResponse(resp))
@@ -39,7 +40,8 @@ func UpdateApplyStatusHandler(c *gin.Context) {
 	}
 	// 更新申请状态
 	if err := database.UpdateApplyStatus(uint(applyID), model.ApplyStatus(status)); err != nil {
-		c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
+		c.JSON(http.StatusInternalServerError, response.MakeFailedResponse(""))
+		// c.JSON(http.StatusBadRequest, response.MakeFailedResponse(err.Error()))
 		return
 	}
 	// 检查申请的状态，如果同意了，需要将用户加入群组

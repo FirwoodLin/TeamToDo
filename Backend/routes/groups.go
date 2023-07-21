@@ -4,6 +4,7 @@ import (
 	"TeamToDo/controller"
 	"TeamToDo/model"
 	"TeamToDo/utils"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +23,10 @@ func registerGroupsRoutes(e *gin.Engine) {
 func registerBasicGroupRoutes(r *gin.RouterGroup) {
 	// 通过群组ID加群
 	r.POST("/join", controller.JoinFromIDHandler)
-
+	r.OPTIONS("/join", func(c *gin.Context) {
+		dc := c
+		fmt.Println(dc)
+	})
 	// 通过群组邀请码加群
 	r.POST("/join/codes", controller.JoinFromCodeHandler)
 

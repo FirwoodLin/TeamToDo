@@ -1,5 +1,9 @@
 package response
 
+import (
+	"github.com/gin-gonic/gin"
+)
+
 type response struct {
 	Success bool        `json:"success"`
 	Hint    string      `json:"hint"`
@@ -20,4 +24,9 @@ func MakeSucceedResponse(data interface{}) response {
 
 func MakeFailedResponse(hint string) response {
 	return MakeResponse(false, hint, nil)
+}
+
+func MakeFailedResponse2(ctx *gin.Context, status int, hint string) {
+	ctx.JSON(status, MakeResponse(false, hint, nil))
+	// return MakeResponse(false, hint, nil)
 }
