@@ -41,6 +41,7 @@ func GenerateRemindMail(taskName, taskDesc, startTime, DeadLine string) string {
 
 // 生成一般邮件
 func generateMail(filename string, data map[string]interface{}, defaultRet string) string {
+
 	file, err := os.ReadFile(filename)
 	if err != nil {
 		global.Logger.Infof("无法打开'%s'文件, err: %s", filename, err)
@@ -66,9 +67,10 @@ func generateMail(filename string, data map[string]interface{}, defaultRet strin
 
 // PostEmail 发送邮件
 func PostEmail(email, text string) error {
-	global.Logger.Debugf("PostEmail ready to 发送邮件给：%s;content:%v", email, text)
+	global.Logger.Debugf("PostEmail ready to 发送邮件给：%s;", email)
 	m := gomail.NewMessage()
 
+	m.SetHeader("Subject", "TeamToDo团队")
 	m.SetHeader("From", global.Server.Mail.Username)
 	m.SetHeader("To", email)
 	m.SetBody("text/html", text) // 发送html

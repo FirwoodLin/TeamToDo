@@ -1,8 +1,7 @@
 import {
   token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar, UserID, getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
   getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
-  formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient, convertClientTimeToDateLocal
-} from "./global.js";
+   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient, convertClientTimeToDateLocal, changeTaskListHeader} from './global.js';
 
 (function () {
   const confirmBtn = document.querySelector('.select-team input');
@@ -55,6 +54,73 @@ import {
     frameParent.id = selectedID;
     updateTaskList(currentGroupID, currentUserID);
   });
+
+     });
+
+     otherUser.addEventListener('click', function(event) {
+       if (event.target.classList.contains('user-avatar')) {
+          var userInstance = event.target;
+          while (userInstance && !userInstance.classList.contains('user-instance')) {
+            userInstance = userInstance.parentElement;
+          }
+          if (userInstance) {
+            var userNameElement = userInstance.querySelector('.user-name');
+            currentUserID = userNameElement.value;
+            var previousSelected = document.getElementById(selectedID);
+            if (previousSelected) {
+              previousSelected.removeAttribute('id');
+            }
+            userInstance.id = selectedID;
+            changeTaskListHeader(e.target.parentElement.querySelector('.user-name').innerText + '的任务');
+            updateTaskList(currentGroupID, currentUserID);
+          }
+        }
+      });
+      
+        localUser.addEventListener('click', function(event) {
+            let frameParent = event.target.parentElement;
+            frameParent = frameParent.parentElement;
+
+            let userNameElement = frameParent.querySelector('.user-name');
+            currentUserID = userNameElement.value;
+            var previousSelected = document.getElementById(selectedID);
+            if (previousSelected) {
+                previousSelected.removeAttribute('id');
+            }
+            frameParent.id = selectedID;
+            changeTaskListHeader(currentUserName + '的任务');
+            updateTaskList(currentGroupID, currentUserID);
+        });
+      
+        otherUser.addEventListener('click', function(event) { 
+          if (event.target.classList.contains('delete-user')) {
+            let userRole = getUserRole(currentGroupID);
+            if (userRole === 2 || userRole === 3) {
+            const userID = event.target.parentElement.querySelector('.user-name').value;
+            const options = {
+              method: 'DELETE',
+              headers: {
+                'Authorization': 'Bearer ' + token
+              }
+            };
+            fetch(`/groups/${currentGroupID}/members/${userID}`, options)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                if (currentUserID === userID) {
+                  currentUserID = UserID;
+                  updateTaskList(currentGroupID, currentUserID);
+                }
+                event.target.parentElement.parentElement.remove();
+              })
+              .catch(e => {
+                console.log('There was a problem with your fetch operation: ' + e.message);
+              });
+            }
+          }
+        });
+
 
 
 })();
