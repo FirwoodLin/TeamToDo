@@ -69,6 +69,7 @@ func PostEmail(email, text string) error {
 	global.Logger.Debugf("PostEmail ready to 发送邮件给：%s;content:%v", email, text)
 	m := gomail.NewMessage()
 
+	m.SetHeader("Subject", "TeamToDo团队")
 	m.SetHeader("From", global.Server.Mail.Username)
 	m.SetHeader("To", email)
 	m.SetBody("text/html", text) // 发送html
