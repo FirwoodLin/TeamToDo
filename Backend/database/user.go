@@ -8,7 +8,9 @@ import (
 	"TeamToDo/utils"
 	"errors"
 	"fmt"
+	"math/rand"
 	"strconv"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/jinzhu/copier"
@@ -54,7 +56,9 @@ func createUser(userReq *request.UserRegisterRequest) (*response.UserResponse, e
 	// 赋予用户名和头像
 	width := 8
 	user.UserName = fmt.Sprintf("User%0*s", width, strconv.FormatInt(int64(user.UserID), 10))
-	user.UserAvatar = global.Server.Avatar.UserUrl
+	rng := rand.New(rand.NewSource(time.Now().UnixNano()))
+	rndNum := rng.Intn(30)
+	user.UserAvatar = fmt.Sprintf(global.Server.Avatar.UserUrl, rndNum)
 	// 进行更新
 	if err := global.Sql.Model(&user).Updates(user).Error; err != nil {
 		global.Logger.Errorf("更新用户名和头像错误\n")

@@ -13,7 +13,16 @@ func TaskCreate(task *model.Task) (err error) {
 		global.Logger.Infof("创建任务: owner:%v,groupID:%v,错误：%v\n", task.OwnerID, task.GroupID, err)
 		return err
 	}
-	global.Logger.Debug("创建任务: ", *task)
+	global.Logger.Debug("database 创建任务,id: ", task.TaskID)
+	//global.Sql.
+	//	Preload("User").
+	//	Preload("Group").
+	//	Find(&task)
+	//global.Sql.Joins("JOIN users ON tasks.ownerID = users.userID").
+	//	//Joins("JOIN groups ON tasks.groupID = groups.groupID").
+	//	Find(&task)
+	//TODO:待修复
+	global.Logger.Debug("database 创建任务,重新搜索后的用户id: ", task.Owner.UserID, "群组ID:", task.Group.GroupID)
 	return nil
 }
 

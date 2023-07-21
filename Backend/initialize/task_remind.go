@@ -12,7 +12,7 @@ import (
 var isFirst bool = true
 
 const (
-	interval = 90 * time.Second // 每隔 interval 时间执行一次
+	interval = 10 * time.Second // 每隔 interval 时间执行一次
 	before   = 10 * time.Second // 任务结束前多久提醒
 )
 
@@ -84,12 +84,13 @@ func Scheduler() {
 
 // 获取当前时间加上 durationToAdd 时长的时间字符串
 func formatTime(durationToAdd time.Duration) string {
-	return time.Now().Add(durationToAdd).Format("2006-01-02 15:04:05")
+	return time.Now().Add(durationToAdd).Add(-8 * time.Hour).Format("2006-01-02 15:04:05")
 }
 func remindTask(task TaskRemind) {
 	// 设置发件时间（定时器）
-	loc, _ := time.LoadLocation("Asia/Shanghai")
-	now := time.Now().In(loc).Add(time.Hour * 8) // 获取当前北京时间 // walkAround
+	//loc, _ := time.LoadLocation("Asia/Shanghai")
+	now := time.Now() // 获取当前北京时间 // walkAround
+	//now := time.Now().In(loc).Add(time.Hour * 8) // 获取当前北京时间 // walkAround
 	diff := task.NoticeTime.Sub(now)
 	timer := time.NewTimer(diff)
 	global.Logger.Debugf("提醒模块-提醒时间：%v,diff:%v", task.NoticeTime, diff)
