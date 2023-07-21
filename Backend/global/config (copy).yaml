@@ -27,7 +27,9 @@ DefaultAvatar:
   "Secret": "授权码"
   "Host": "smtp.163.com"
   "Port": 25
-
+"Template":
+  "Activate": "./template/activate.tmpl"
+  "Remind": "./template/remind.tmpl"
 
 
 
