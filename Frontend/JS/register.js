@@ -17,7 +17,7 @@ function register() {
     else {
         var password = pwd1;
 
-        fetch('http://localhost:8080/users/registration', {
+        fetch('http://localhost:8080/api/users/registration', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/login.08e4bc22.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/personal_table.78d7d356.css">
+    <link rel="stylesheet" href="/personal_table.bd0a6a21.css">
+    <link rel="stylesheet" href="/personal_table.1bc360ab.css">
+
+    <title>个人主页</title>
+</head>
+<body>
+    <div class="personal-box">
+        <div class="information">
+            <div class="photo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewbox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="32" fill="white"></circle>
+                </svg>
+            </div>
+            <div class="infor">
+                <div class="name" id="user-name">某某</div>
+                <div class="email" id="user-email">@1234567890.qq.com</div>
+            </div>
+        </div>
+        <div class="buttons-box">
+            <div class="btns">
+                <button class="quit-btn">退出登录</button>
+            </div>
+            <div class="btns">
+                <button class="join-team-btn">加入团队</button>
+            </div>
+            <div class="btns">
+                <button class="create-team-btn">创建团队</button>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <!-- 加入团队的模态窗口 -->
+    <div class="box1" id="joinTeamModal">
+            <div class="quit-btn1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewbox="0 0 26 26" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.74324 1.03613C1.54798 0.840867 1.2314 0.840867 1.03614 1.03613C0.840874 1.23139 0.840874 1.54797 1.03614 1.74324L12.3652 13.0723L1.03614 24.4013C0.840874 24.5966 0.840874 24.9131 1.03614 25.1084C1.2314 25.3037 1.54798 25.3037 1.74324 25.1084L13.0723 13.7794L24.4014 25.1085C24.5967 25.3038 24.9133 25.3038 25.1086 25.1085C25.3038 24.9133 25.3038 24.5967 25.1086 24.4014L13.7794 13.0723L25.1086 1.74309C25.3038 1.54783 25.3038 1.23125 25.1086 1.03599C24.9133 0.840724 24.5967 0.840724 24.4014 1.03599L13.0723 12.3652L1.74324 1.03613Z" fill="black"></path>
+                </svg>
+            </div>
+            <div class="title1">加入团队</div>
+            <div class="input1">
+                <input type="text" id="search-groupID" placeholder="请输入加群的群组ID">
+            </div>
+            <div class="search-button1">
+                <button>加入</button>
+            </div>
+    </div>
+
+
+    <!-- 创建团队的模态窗口 -->
+    <div class="box2" id="createTeamModal">
+            <div class="quit-btn2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewbox="0 0 26 26" fill="none">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M1.74324 1.03613C1.54798 0.840867 1.2314 0.840867 1.03614 1.03613C0.840874 1.23139 0.840874 1.54797 1.03614 1.74324L12.3652 13.0723L1.03614 24.4013C0.840874 24.5966 0.840874 24.9131 1.03614 25.1084C1.2314 25.3037 1.54798 25.3037 1.74324 25.1084L13.0723 13.7794L24.4014 25.1085C24.5967 25.3038 24.9133 25.3038 25.1086 25.1085C25.3038 24.9133 25.3038 24.5967 25.1086 24.4014L13.7794 13.0723L25.1086 1.74309C25.3038 1.54783 25.3038 1.23125 25.1086 1.03599C24.9133 0.840724 24.5967 0.840724 24.4014 1.03599L13.0723 12.3652L1.74324 1.03613Z" fill="black"></path>
+                </svg>
+            </div>
+            <div class="title2">创建团队</div>
+            <div class="input2">
+                <input type="text" id="group-name" placeholder="请输入创建群组名称">
+            </div>
+            <div class="input2">
+                <input type="text" id="group-description" placeholder="请输入创建群组描述">
+            </div>
+            <div class="input2">
+                <input type="text" id="group-ID" placeholder="">
+            </div>
+            <div class="search-button2">
+                <button>点击生成群组及群组ID</button>
+            </div>
+    </div>
+
+
+    <script src="/personal_table.c14a8c99.js" defer=""></script>
+    
+</body>
+</html>

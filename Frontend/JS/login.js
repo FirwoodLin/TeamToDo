@@ -8,7 +8,7 @@ function login() {
     var password = document.getElementById("pwd").value;
 
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "http://localhost:8080/api/v1/users/login", true);
+    xhr.open("POST", "http://localhost:8080/api/users/login", true);
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.onreadystatechange = function () {

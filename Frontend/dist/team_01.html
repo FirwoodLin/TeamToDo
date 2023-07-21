@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, width=device-width">
+    <link rel="stylesheet" href="/team_01.d1c61b32.css">
+    <link rel="stylesheet" href="/team_01.94831556.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css">
+  </head>
+  <body>
+    <div class="div">
+      <div class="rectangle-parent">
+        <div class="wrapper">
+          <div class="div1">团队成员</div>
+        </div>
+        <div class="frame-parent">
+          <div class="user-info">
+            <img class="user-avatar" src="/avatar1.d547c8d5.jpg" alt="用户头像">
+            <div class="user-name">LiuQi</div>
+            <div class="current-user">我</div>
+          </div>
+        </div>
+        <ul class="instance-parent">
+          <li class="user-instance">
+            <div class="user-info">
+              <img class="user-avatar" src="/avatar2.dc47f109.jpg" alt="用户头像">
+              <div class="user-name">冰冰</div>
+              <div class="delete-user"></div>
+            </div>
+          </li>
+          <li class="user-instance">
+            <div class="user-info">
+              <img class="user-avatar" src="/avatar3.dc63a1a3.jpg" alt="用户头像">
+              <div class="user-name">黄瓜</div>
+              <div class="delete-user"></div>
+            </div>
+          </li>
+        </ul>
+        <div class="group-div">
+          <div class="ellipse-parent">
+            <div class="frame-item">
+              <div class="vector-1"></div>
+              <div class="vector-2"></div>
+            </div>
+            <div class="div2">添加成员</div>
+          </div>
+        </div>
+        <form action="#" class="select-team">
+          <label for="teams">团队选择</label>
+          <select name="groupName" id="teams" size="2">
+            <option>不想写HTML</option>
+            <option>不想写CSS</option>
+            <option>更不想写JavaScript</option>
+          </select>
+          <input type="submit" value="确认">
+        </form>
+        <button class="quit-team">退出当前团队</button>
+      </div>
+
+      <!--todolist view-->
+
+      <div class="task-header">
+        <h2 class="username-header">某某的任务</h2>
+      </div>
+
+      <div class="task-details">
+        <p class="catalog">任务标题</p>
+        <p class="catalog">截至时间</p>
+        <p class="catalog">创建时间</p>
+        <p class="catalog">完成状况</p>
+      </div>
+
+      <ul class="task-list">
+        <li class="task">
+          <div class="delete-task"></div>
+          <p class="item1">任务efwf</p>
+          <p class="item2">开始时间fe</p>
+          <p class="item3">结束时间fe</p>
+          <p class="item4">状态few</p>
+        </li>
+        <li class="task">
+          <div class="delete-task"></div>
+          <p class="item1">任few务</p>
+          <p class="item2">开始few时间</p>
+          <p class="item3">结束时efw间</p>
+          <p class="item4">状态</p>
+        </li>
+        <li class="task">
+          <div class="delete-task"></div>
+          <p class="item1">任few务</p>
+          <p class="item2">开few始时间</p>
+          <p class="item3">结束efw时间</p>
+          <p class="item4">状态few</p>
+        </li>
+      </ul>
+      <button class="frame" id="open-task-modal">
+        <div class="div27">新建</div>
+      </button>
+
+      <div class="frame-parent3">
+        <div class="rectangle-parent1">
+          <div class="frame-child5"></div>
+          <div class="frame-child6"></div>
+          <a class="component-1">
+            <div class="div28"></div>
+            <div class="div29">搜索</div>
+          </a>
+          <a class="component-4">
+            <div class="div30"></div>
+            <div class="div29">个人</div>
+          </a>
+          <a class="component-3">
+            <div class="div30"></div>
+            <div class="div29">团队</div>
+          </a>
+          <div class="rectangle-parent2">
+            <div class="frame-child7"></div>
+            <div class="component-11">
+              <div class="div28"></div>
+              <div class="div29">搜索</div>
+            </div>
+            <div class="component-41">
+              <div class="div30"></div>
+              <div class="div29">个人</div>
+            </div>
+            <div class="component-31">
+              <div class="div30"></div>
+              <div class="div29">团队</div>
+            </div>
+          </div>
+        </div>
+        <img class="group-icon" alt="" src="/group-26.4e6191b4.svg">
+
+        <img class="union-icon1" alt="" src="/union1.ea8892ed.svg">
+
+        <img class="frame-child8" alt="" src="/group-32.44331b86.svg">
+      </div>
+    </div>
+    <section class="task-info-modal" id="task-info-modal">
+      <button class="task-complete">√完成任务</button>
+      <button class="save-task">保存</button>
+      <header class="task-info-create">
+        <div>
+          <label for="task-name">名称:</label>
+          <input name="taskName" type="text" class="task-name" id="task-name" spellcheck="true" focus="" required="">
+        </div>
+        <div>
+          <label for="task-start-time">开始时间:</label>
+          <input name="taskStartTime" type="datetime-local" class="task-start-time" id="task-start-time" required="">
+        </div>
+        <div>
+          <label for="task-end-time">截至时间:</label>
+          <input name="taskEndTime" type="datetime-local" class="task-end-time" id="task-end-time" required="">
+        </div>
+      </header>
+      <div class="text-area">
+        <label for="task-description">任务描述:</label>
+        <textarea name="taskDescription" id="task-description" cols="40" rows="50" maxlength="200" minlength="0" placeholder="请输入任务描述,最多200字" spellcheck="true"></textarea>
+      </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js" defer=""></script>
+    <script src="/login.08e4bc22.js" defer=""></script>
+    <script src="/team_01.cfbd1baa.js" defer=""></script>
+    <script src="/team_01.c25a8c6f.js" defer=""></script>
+  </body>
+</html>

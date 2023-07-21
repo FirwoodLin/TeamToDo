@@ -1,0 +1,78 @@
+.box1, .box2 {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.personal-box {
+  background: #003381;
+  flex-direction: column;
+  width: 285px;
+  height: 400px;
+  display: flex;
+}
+
+.information {
+  flex-direction: row;
+  flex: 3;
+  display: flex;
+}
+
+.information .photo {
+  flex: 1;
+  padding-top: 48px;
+  padding-left: 36px;
+}
+
+.information .infor {
+  flex-direction: column;
+  flex: 2;
+  justify-content: center;
+  padding-bottom: 10px;
+  display: flex;
+}
+
+.information .infor .name {
+  color: #fff;
+  text-align: center;
+  padding-bottom: 22px;
+  font-family: Inter;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: normal;
+}
+
+.information .infor .email {
+  color: #fff;
+  text-align: center;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: normal;
+}
+
+.buttons-box {
+  flex-direction: column;
+  flex: 4;
+  justify-content: space-evenly;
+  align-items: center;
+  display: flex;
+}
+
+.buttons-box .btns button {
+  color: #fff;
+  text-align: center;
+  background: #003381;
+  border: none;
+  font-family: Inter;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 100;
+  line-height: normal;
+}
+
+/*# sourceMappingURL=personal_table.78d7d356.css.map */

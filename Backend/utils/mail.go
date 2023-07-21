@@ -4,10 +4,9 @@ import (
 	"TeamToDo/global"
 	"bytes"
 	"crypto/tls"
+	"gopkg.in/gomail.v2"
 	"html/template"
 	"os"
-
-	"gopkg.in/gomail.v2"
 )
 
 var items = map[string]interface{}{
@@ -63,10 +62,10 @@ func generateMail(filename string, data map[string]interface{}, defaultRet strin
 
 // PostEmail 发送邮件
 func PostEmail(email, text string) error {
-	global.Logger.Debugf("PostEmail ready to 发送邮件给：%s", email)
+	global.Logger.Debugf("PostEmail ready to 发送邮件给：%s;content:%v", email, text)
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", "TeamToDo 团队 <"+global.Server.Mail.Username+">")
+	m.SetHeader("From", global.Server.Mail.Username)
 	m.SetHeader("To", email)
 	m.SetBody("text/html", text) // 发送html
 
