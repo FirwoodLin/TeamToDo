@@ -5,12 +5,12 @@ createCodeButton.addEventListener('click',createCode);
 
 async function createCode() {
     var groupIDInput = document.getElementById('input-group-id');
-    var showCodeOutput = document.getElementById('.generate-group-code');
+    var showCodeOutput = document.getElementById('generate-group-code');
     var currentGroupID = groupIDInput.value;
-    try {
+    
+   
         var currentUserRole = await getUserRole(currentGroupID);
-        if(currentUserRole.ok) {
-             if(currentUserRole === 1) {
+        if(currentUserRole === 1) {
         alert('你不是该群管理人员，无法生成邀请码！');
     }
         else {
@@ -39,10 +39,6 @@ async function createCode() {
             console.error('Error creating code:' + error);
                 }
             }
-        }
-    }
-    catch(error) {
-        console.error('Error getting role:' + error);
-    }
+        
 }
 
