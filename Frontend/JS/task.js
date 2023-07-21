@@ -1,12 +1,12 @@
-export {token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar,UserID,getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
+import {token, currentGroupID, currentUserID, currentUserName, currentUserEmail, currentUserAvatar,UserID,getGroupIDs, getGroupNames, getGroupMemberNames, getGroupMemberIDs, getGroupMemberAvatars,
   getTaskNames, getTaskIDs, getTaskDescriptions, getTaskStatuses, getTaskDeadlines, getTaskStartAts, convertDateTimeFormat,
-   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient, convertClientTimeToDateLocal};
-
+   formatDateTimeLocal, updateSelectOptions, updateGroupMembersList, updateTaskList, getUserRole, formatDateTimeLocalToClient, convertClientTimeToDateLocal, changeTaskListHeader} from './global.js';
 (function() {
     const taskModal = document.querySelector('.task-info-modal');
     const statusBtn = document.querySelector('.task-complete');
     const textArea = document.querySelector('.task-info-modal textarea');
     const saveBtn = document.querySelector('.save-task');
+    const taskList = document.querySelector('.task-list');
     var isUpdating = false;
     
     //文本编辑模块框打开
@@ -88,6 +88,32 @@ export {token, currentGroupID, currentUserID, currentUserName, currentUserEmail,
         }
       });
 
+      //删除任务
+      taskList.addEventListener('click', function(event) {
+        if (currentUserID === UserID) {
+        if (event.target.classList.contains('delete-task')) {
+          let task = event.target.parentElement;
+          let taskID = task.querySelector('.item1').value;
+          const options = {
+            method: 'DELETE', 
+            headers: {
+              'Authorization': `Bearer ${token}`
+          }
+        };
+        fetch(`/tasks/${taskID}}`, options)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          event.target.parentElement.parentElement.remove();
+        })
+        .catch(e => {
+          console.log('There was a problem with your fetch operation: ' + e.message);
+        });
+        }
+      }
+    });
+
       async function addTask() {
         await sendTaskToServer(); 
         clearTaskInput();
@@ -99,6 +125,8 @@ export {token, currentGroupID, currentUserID, currentUserName, currentUserEmail,
         clearTaskInput();
         await updateTaskList(currentGroupID, currentUserID);
       }
+
+
     // function createTask(taskName, taskStartAt, taskDeadline, taskDescription) {
     //   let taskList = document.querySelector('.task-list');
     //   taskStartAt = formatDateTimeLocalToClient(taskStartAt);
@@ -158,6 +186,9 @@ export {token, currentGroupID, currentUserID, currentUserName, currentUserEmail,
 
 async function sendTaskToServer() {
   var [taskName, startAt, deadline, description] = getUserInput();
+
+  startAt = formatDateTimeLocal(startAt);
+  deadline = formatDateTimeLocal(deadline);
 
   var body = {
       taskName: taskName,
