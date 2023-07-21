@@ -1,0 +1,87 @@
+.generate-code-box {
+    width: 600px;
+    height: 400px;
+    flex-shrink: 0;
+    border-radius: 100px 12px;
+    background: #FFF;
+    box-shadow: 0px 4px 237px 0px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+}
+
+.quit-btn {
+    flex: 1;
+    flex-shrink: 0;
+    fill: #000;
+    text-align: end;
+    margin-right: 25px;
+    margin-top: 25px;
+}
+
+.title {
+    flex: 2;
+    flex-shrink: 0;
+    color: var(--2866-df, #2866DF);
+    font-family: Inter;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    text-align: center;
+}
+
+.input {
+    flex: 2;
+    flex-shrink: 0;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+}
+
+#input-group-id {
+    height: 48px;
+    width: 300px;
+    border-radius: 16px;
+    border: 1px solid #000;
+    background: #FFF;
+    padding-left: 45px;
+    font-size: 20px;
+    margin-top: 40px;
+}
+
+#generate-group-code {
+    height: 48px;
+    width: 300px;
+    border-radius: 16px;
+    border: 1px solid #000;
+    background: #FFF;
+    padding-left: 45px;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.create-code-button {
+    flex: 4;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.create-code-button button {
+    width: 300px;
+    height: 48px;
+    background: #2866DF;
+    border: none;
+    border-radius: 16px;
+    font-size: 20px;
+    margin-top: 30px;
+    color: rgb(233, 240, 246);
+}
+
+.create-code-button button:active {
+    background: #5682bf;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
