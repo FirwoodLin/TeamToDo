@@ -12,11 +12,11 @@ function showInformation() {
     // var userName = localStorage.getItem('userName');
     // var userEmail = localStorage.getItem('userEmail');
 
-    var userNameElement = document.getElementById('user-name');
-    var userEmailElement = document.getElementById('user-email');
+    // var userNameElement = document.getElementById('user-name');
+    // var userEmailElement = document.getElementById('user-email');
 
-    userNameElement.textContent = currentUserName;
-    userEmailElement.textContent = currentUserEmail;
+    // userNameElement.textContent = currentUserName;
+    // userEmailElement.textContent = currentUserEmail;
 }
 document.addEventListener('DOMContentLoaded',showInformation);
 
